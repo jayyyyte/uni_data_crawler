@@ -33,6 +33,8 @@ Run one stage at a time:
 
 ```powershell
 python ingest.py crawl-sources --sources data/source_map_50.csv --out-dir exports/pilot
+python ingest.py suggest-sources --sources exports/pilot/sources.csv --out exports/pilot/source_suggestions.csv
+python ingest.py build-source-map-candidates --sources exports/pilot/sources.csv --suggestions exports/pilot/source_suggestions.csv --out exports/pilot/source_map_50_candidates.csv
 python ingest.py extract-facts --sources exports/pilot/sources.csv --evidence exports/pilot/evidence.csv --out-dir exports/pilot
 python ingest.py build-profiles --seed data/seed_universities_50.csv --sources exports/pilot/sources.csv --facts exports/pilot/facts.csv --rankings data/rankings_import.csv --out-dir exports/pilot
 ```

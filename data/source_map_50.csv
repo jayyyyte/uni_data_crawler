@@ -1,2 +1,51 @@
 university_id,university_name,country,source_type,url,priority,language_code,crawl_method,notes
-
+mit,Massachusetts Institute of Technology,United States,official_home,https://www.mit.edu,1,en,static,starter official homepage
+stanford,Stanford University,United States,official_home,https://www.stanford.edu,1,en,static,starter official homepage
+harvard,Harvard University,United States,official_home,https://www.harvard.edu,1,en,static,starter official homepage
+uc-berkeley,University of California Berkeley,United States,official_home,https://www.berkeley.edu,1,en,static,starter official homepage
+caltech,California Institute of Technology,United States,official_home,https://www.caltech.edu,1,en,static,starter official homepage
+princeton,Princeton University,United States,official_home,https://www.princeton.edu,1,en,static,starter official homepage
+yale,Yale University,United States,official_home,https://www.yale.edu,1,en,static,starter official homepage
+columbia,Columbia University,United States,official_home,https://www.columbia.edu,1,en,static,starter official homepage
+uchicago,University of Chicago,United States,official_home,https://www.uchicago.edu,1,en,static,starter official homepage
+upenn,University of Pennsylvania,United States,official_home,https://www.upenn.edu,1,en,static,starter official homepage
+cornell,Cornell University,United States,official_home,https://www.cornell.edu,1,en,static,starter official homepage
+cmu,Carnegie Mellon University,United States,official_home,https://www.cmu.edu,1,en,static,starter official homepage
+toronto,University of Toronto,Canada,official_home,https://www.utoronto.ca,1,en,static,starter official homepage
+ubc,University of British Columbia,Canada,official_home,https://www.ubc.ca,1,en,static,starter official homepage
+mcgill,McGill University,Canada,official_home,https://www.mcgill.ca,1,en,static,starter official homepage
+oxford,University of Oxford,United Kingdom,official_home,https://www.ox.ac.uk,1,en,static,starter official homepage
+cambridge,University of Cambridge,United Kingdom,official_home,https://www.cam.ac.uk,1,en,static,starter official homepage
+imperial,Imperial College London,United Kingdom,official_home,https://www.imperial.ac.uk,1,en,static,starter official homepage
+ucl,University College London,United Kingdom,official_home,https://www.ucl.ac.uk,1,en,static,starter official homepage
+lse,London School of Economics and Political Science,United Kingdom,official_home,https://www.lse.ac.uk,1,en,static,starter official homepage
+edinburgh,University of Edinburgh,United Kingdom,official_home,https://www.ed.ac.uk,1,en,static,starter official homepage
+manchester,University of Manchester,United Kingdom,official_home,https://www.manchester.ac.uk,1,en,static,starter official homepage
+kcl,King's College London,United Kingdom,official_home,https://www.kcl.ac.uk,1,en,static,starter official homepage
+eth-zurich,ETH Zurich,Switzerland,official_home,https://ethz.ch/en.html,1,en,static,starter official homepage
+epfl,EPFL,Switzerland,official_home,https://www.epfl.ch/en/,1,en,static,starter official homepage
+tum,Technical University of Munich,Germany,official_home,https://www.tum.de/en/,1,en,static,starter official homepage
+lmu-munich,Ludwig Maximilian University of Munich,Germany,official_home,https://www.lmu.de/en/,1,en,static,starter official homepage
+heidelberg,Heidelberg University,Germany,official_home,https://www.heidelberg-university.de/en,1,en,static,starter official homepage
+sorbonne,Sorbonne University,France,official_home,https://www.sorbonne-universite.fr/en,1,en,static,starter official homepage
+sciences-po,Sciences Po,France,official_home,https://www.sciencespo.fr/en/,1,en,static,starter official homepage
+amsterdam,University of Amsterdam,Netherlands,official_home,https://www.uva.nl/en,1,en,static,starter official homepage
+delft,Delft University of Technology,Netherlands,official_home,https://www.tudelft.nl/en/,1,en,static,starter official homepage
+ku-leuven,KU Leuven,Belgium,official_home,https://www.kuleuven.be/english/kuleuven,1,en,static,starter official homepage
+bocconi,Bocconi University,Italy,official_home,https://www.unibocconi.it/en,1,en,static,starter official homepage
+nus,National University of Singapore,Singapore,official_home,https://www.nus.edu.sg,1,en,static,starter official homepage
+ntu-singapore,Nanyang Technological University,Singapore,official_home,https://www.ntu.edu.sg,1,en,static,starter official homepage
+hku,The University of Hong Kong,Hong Kong,official_home,https://www.hku.hk,1,en,static,starter official homepage
+cuhk,The Chinese University of Hong Kong,Hong Kong,official_home,https://www.cuhk.edu.hk/english/index.html,1,en,static,starter official homepage
+hkust,Hong Kong University of Science and Technology,Hong Kong,official_home,https://hkust.edu.hk,1,en,static,starter official homepage
+tokyo,The University of Tokyo,Japan,official_home,https://www.u-tokyo.ac.jp/en/,1,en,static,starter official homepage
+kyoto,Kyoto University,Japan,official_home,https://www.kyoto-u.ac.jp/en,1,en,static,starter official homepage
+snu,Seoul National University,South Korea,official_home,https://en.snu.ac.kr/,1,en,static,starter official homepage
+kaist,KAIST,South Korea,official_home,https://www.kaist.ac.kr/en/,1,en,static,starter official homepage
+tsinghua,Tsinghua University,China,official_home,https://www.tsinghua.edu.cn/en/,1,en,static,starter official homepage
+peking,Peking University,China,official_home,https://english.pku.edu.cn,1,en,static,starter official homepage
+melbourne,University of Melbourne,Australia,official_home,https://www.unimelb.edu.au,1,en,static,starter official homepage
+sydney,University of Sydney,Australia,official_home,https://www.sydney.edu.au,1,en,static,starter official homepage
+anu,Australian National University,Australia,official_home,https://www.anu.edu.au,1,en,static,starter official homepage
+unsw,UNSW Sydney,Australia,official_home,https://www.unsw.edu.au,1,en,static,starter official homepage
+auckland,University of Auckland,New Zealand,official_home,https://www.auckland.ac.nz/en.html,1,en,static,starter official homepage

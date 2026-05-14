@@ -1,2 +1,51 @@
 university_id,name,local_name,country,city,region,country_group,website_url,type,notes
-
+mit,Massachusetts Institute of Technology,,United States,Cambridge,Massachusetts,North America,https://www.mit.edu,private,pilot representative
+stanford,Stanford University,,United States,Stanford,California,North America,https://www.stanford.edu,private,pilot representative
+harvard,Harvard University,,United States,Cambridge,Massachusetts,North America,https://www.harvard.edu,private,pilot representative
+uc-berkeley,University of California Berkeley,,United States,Berkeley,California,North America,https://www.berkeley.edu,public,pilot representative
+caltech,California Institute of Technology,,United States,Pasadena,California,North America,https://www.caltech.edu,private,pilot representative
+princeton,Princeton University,,United States,Princeton,New Jersey,North America,https://www.princeton.edu,private,pilot representative
+yale,Yale University,,United States,New Haven,Connecticut,North America,https://www.yale.edu,private,pilot representative
+columbia,Columbia University,,United States,New York,New York,North America,https://www.columbia.edu,private,pilot representative
+uchicago,University of Chicago,,United States,Chicago,Illinois,North America,https://www.uchicago.edu,private,pilot representative
+upenn,University of Pennsylvania,,United States,Philadelphia,Pennsylvania,North America,https://www.upenn.edu,private,pilot representative
+cornell,Cornell University,,United States,Ithaca,New York,North America,https://www.cornell.edu,private,pilot representative
+cmu,Carnegie Mellon University,,United States,Pittsburgh,Pennsylvania,North America,https://www.cmu.edu,private,pilot representative
+toronto,University of Toronto,,Canada,Toronto,Ontario,North America,https://www.utoronto.ca,public,pilot representative
+ubc,University of British Columbia,,Canada,Vancouver,British Columbia,North America,https://www.ubc.ca,public,pilot representative
+mcgill,McGill University,,Canada,Montreal,Quebec,North America,https://www.mcgill.ca,public,pilot representative
+oxford,University of Oxford,,United Kingdom,Oxford,England,Europe,https://www.ox.ac.uk,public,pilot representative
+cambridge,University of Cambridge,,United Kingdom,Cambridge,England,Europe,https://www.cam.ac.uk,public,pilot representative
+imperial,Imperial College London,,United Kingdom,London,England,Europe,https://www.imperial.ac.uk,public,pilot representative
+ucl,University College London,,United Kingdom,London,England,Europe,https://www.ucl.ac.uk,public,pilot representative
+lse,London School of Economics and Political Science,,United Kingdom,London,England,Europe,https://www.lse.ac.uk,public,pilot representative
+edinburgh,University of Edinburgh,,United Kingdom,Edinburgh,Scotland,Europe,https://www.ed.ac.uk,public,pilot representative
+manchester,University of Manchester,,United Kingdom,Manchester,England,Europe,https://www.manchester.ac.uk,public,pilot representative
+kcl,King's College London,,United Kingdom,London,England,Europe,https://www.kcl.ac.uk,public,pilot representative
+eth-zurich,ETH Zurich,ETH Zürich,Switzerland,Zurich,Zurich,Europe,https://ethz.ch/en.html,public,pilot representative
+epfl,EPFL,École polytechnique fédérale de Lausanne,Switzerland,Lausanne,Vaud,Europe,https://www.epfl.ch/en/,public,pilot representative
+tum,Technical University of Munich,Technische Universität München,Germany,Munich,Bavaria,Europe,https://www.tum.de/en/,public,pilot representative
+lmu-munich,Ludwig Maximilian University of Munich,Ludwig-Maximilians-Universität München,Germany,Munich,Bavaria,Europe,https://www.lmu.de/en/,public,pilot representative
+heidelberg,Heidelberg University,Ruprecht-Karls-Universität Heidelberg,Germany,Heidelberg,Baden-Württemberg,Europe,https://www.heidelberg-university.de/en,public,pilot representative
+sorbonne,Sorbonne University,Sorbonne Université,France,Paris,Île-de-France,Europe,https://www.sorbonne-universite.fr/en,public,pilot representative
+sciences-po,Sciences Po,Institut d'études politiques de Paris,France,Paris,Île-de-France,Europe,https://www.sciencespo.fr/en/,public,pilot representative
+amsterdam,University of Amsterdam,Universiteit van Amsterdam,Netherlands,Amsterdam,North Holland,Europe,https://www.uva.nl/en,public,pilot representative
+delft,Delft University of Technology,Technische Universiteit Delft,Netherlands,Delft,South Holland,Europe,https://www.tudelft.nl/en/,public,pilot representative
+ku-leuven,KU Leuven,Katholieke Universiteit Leuven,Belgium,Leuven,Flemish Brabant,Europe,https://www.kuleuven.be/english/kuleuven,public,pilot representative
+bocconi,Bocconi University,Università Commerciale Luigi Bocconi,Italy,Milan,Lombardy,Europe,https://www.unibocconi.it/en,private,pilot representative
+nus,National University of Singapore,新加坡国立大学,Singapore,Singapore,Singapore,Asia,https://www.nus.edu.sg,public,pilot representative
+ntu-singapore,Nanyang Technological University,南洋理工大学,Singapore,Singapore,Singapore,Asia,https://www.ntu.edu.sg,public,pilot representative
+hku,The University of Hong Kong,香港大學,Hong Kong,Hong Kong,Hong Kong,Asia,https://www.hku.hk,public,pilot representative
+cuhk,The Chinese University of Hong Kong,香港中文大學,Hong Kong,Hong Kong,Hong Kong,Asia,https://www.cuhk.edu.hk/english/index.html,public,pilot representative
+hkust,Hong Kong University of Science and Technology,香港科技大學,Hong Kong,Hong Kong,Hong Kong,Asia,https://hkust.edu.hk,public,pilot representative
+tokyo,The University of Tokyo,東京大学,Japan,Tokyo,Tokyo,Asia,https://www.u-tokyo.ac.jp/en/,public,pilot representative
+kyoto,Kyoto University,京都大学,Japan,Kyoto,Kyoto,Asia,https://www.kyoto-u.ac.jp/en,public,pilot representative
+snu,Seoul National University,서울대학교,South Korea,Seoul,Seoul,Asia,https://en.snu.ac.kr/,public,pilot representative
+kaist,KAIST,한국과학기술원,South Korea,Daejeon,Daejeon,Asia,https://www.kaist.ac.kr/en/,public,pilot representative
+tsinghua,Tsinghua University,清华大学,China,Beijing,Beijing,Asia,https://www.tsinghua.edu.cn/en/,public,pilot representative
+peking,Peking University,北京大学,China,Beijing,Beijing,Asia,https://english.pku.edu.cn,public,pilot representative
+melbourne,University of Melbourne,,Australia,Melbourne,Victoria,Oceania,https://www.unimelb.edu.au,public,pilot representative
+sydney,University of Sydney,,Australia,Sydney,New South Wales,Oceania,https://www.sydney.edu.au,public,pilot representative
+anu,Australian National University,,Australia,Canberra,Australian Capital Territory,Oceania,https://www.anu.edu.au,public,pilot representative
+unsw,UNSW Sydney,,Australia,Sydney,New South Wales,Oceania,https://www.unsw.edu.au,public,pilot representative
+auckland,University of Auckland,Waipapa Taumata Rau,New Zealand,Auckland,Auckland,Oceania,https://www.auckland.ac.nz/en.html,public,pilot representative
