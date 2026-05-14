@@ -1,0 +1,229 @@
+Tổng quan nhanh về project
+Đây là một web app Glowbal V2 cho học sinh/sinh viên tìm và quản lý lộ trình apply đại học quốc tế, built bằng Next.js + Supabase + Tailwind CSS. README mô tả rõ focus ban đầu: auth, onboarding, hồ sơ, upload CV, shortlist, so sánh trường. 
+
+1) Tech stack & runtime
+Framework chính: Next.js 16.2.3 (khá mới, có breaking changes theo AGENTS.md). 
+UI/runtime:
+React 19.2.4, React DOM 19.2.4. 
+Framer Motion, GSAP, Three.js, react-globe.gl (nghiêng về UI animation/3D). 
+Backend/data:
+Supabase SSR + supabase-js. 
+Validation/forms:
+zod, react-hook-form, @hookform/resolvers. 
+Build/lint tooling:
+ESLint 9, eslint-config-next 16, TypeScript 5, TailwindCSS 4. 
+
+2) Kiến trúc thư mục (high-level)
+Repo theo kiểu App Router (thư mục src/app/...) và tách logic thành src/lib, src/components, src/types. 
+Các route/page chính hiện có:
+/ landing + waitlist. 
+/auth auth UI.
+/onboarding, /onboarding/documents. 
+/universities, /my-universities, /profile, /mentors, dashboard, cùng dynamic route /my-universities/[id]/writer. 
+
+3) Luồng sản phẩm (business flow)
+Theo tài liệu setup, user flow end-to-end:
+Landing
+Auth
+Onboarding 7 bước
+Upload documents
+Search universities với match score
+My Universities + roadmap tasks
+AI Writer cho personal statement
+Profile. 
+Điều này khớp với codebase đang có đầy đủ route tương ứng trong src/app. 
+
+4) Các module quan trọng trong code
+Landing + Waitlist
+Landing page dùng server action joinWaitlist:
+validate email,
+insert waitlist_signups,
+nếu duplicate thì update tên/notes,
+nếu new signup thì gửi email xác nhận. 
+Auth
+AuthForm hỗ trợ:
+signup/login bằng email-password,
+Google OAuth qua Supabase,
+signup flow có màn hình “check inbox”. 
+Cấu hình app
+next.config.ts bật reactCompiler và cấu hình turbopack root. 
+tsconfig strict mode + alias @/* -> src/*. 
+
+5) Database design (Supabase)
+Schema khá đầy đủ và production-oriented:
+universities (dữ liệu trường). 
+user_universities (shortlist theo user). 
+application_tasks (roadmap tasks theo trường đã lưu). 
+task_templates (seed task mẫu). 
+personal_statements (draft + AI analysis). 
+Có RLS/policies cho authenticated user và service role. 
+Riêng waitlist có schema tách riêng ở supabase-waitlist.sql. 
+
+6) Env vars & vận hành local
+Biến môi trường chính:
+Supabase keys (NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY),
+OpenAI key/model (OPENAI_API_KEY, OPENAI_MODEL), default model ghi là gpt-4o-mini. 
+Run local:
+npm install
+npm run dev. 
+
+7) Đánh giá nhanh về maturity
+Điểm mạnh
+Kiến trúc rõ: app routes + lib + typed code + strict TS. 
+Dữ liệu domain được model chi tiết, có RLS/policy khá chuẩn Supabase. 
+Product flow end-to-end đã được định nghĩa đầy đủ (từ auth đến AI writer). 
+Rủi ro / cần lưu ý
+Next.js 16 + React 19 là stack mới, cần tuân thủ breaking changes (AGENTS cảnh báo rõ).
+Một số phần phụ thuộc external services (Supabase, OpenAI, email) nên local setup cần chuẩn env + policy trước khi test full flow. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+High-level overview
+Glowbal V2 is a Next.js + Supabase + Tailwind CSS application for student-first global university guidance: authentication, onboarding, student profiles, document uploads, university discovery, shortlisting/application tracking, and an AI personal-statement reviewer. The README describes the stack as Next.js, Supabase, and Tailwind CSS, and lists the initial product focus as auth, onboarding, student profiles, CV upload, shortlist results, and save/compare flows. 
+The project is a modern App Router-style Next.js app under src/app, with shared UI in src/components, shared domain/data/Supabase utilities in src/lib, and global types in src/lib/types.ts. The app uses Next.js 16.2.3, React 19.2.4, Supabase clients, Framer Motion, GSAP, Three/react-globe.gl, React Hook Form, Zod, Tailwind 4, and TypeScript. 
+One important repo-specific rule: this codebase explicitly warns that its Next.js version has breaking changes and says to read relevant docs in node_modules/next/dist/docs/ before writing code.
+
+How the repository is organized
+Root-level configuration
+package.json defines the app scripts: npm run dev, npm run build, npm run start, and npm run lint. 
+next.config.ts enables the React Compiler and sets Turbopack’s root to the repo directory. 
+tsconfig.json runs in strict TypeScript mode, uses moduleResolution: "bundler", and maps @/* imports to ./src/*. 
+src/app/globals.css imports Tailwind and defines the main Glowbal design tokens: pink, mint, dark colors, surface/background colors, border radius tokens, and reusable site styling. 
+Main source folders
+The most important folders are:
+src/app: route segments, pages, loading UI, route handlers, and route-local components.
+src/components: shared components used across routes, such as nav, landing visuals, waitlist form, sign-out button, and match badge.
+src/lib: shared Supabase clients, types, matching logic, university/explorer utilities, onboarding options, email sending, and static university-related data.
+src/types: ambient/type declarations for external libraries and mentoring-specific types.
+I inspected the route/component inventory with find src/app -maxdepth 4 -type f | sort and find src/components -maxdepth 3 -type f | sort; the app currently includes routes for auth, onboarding, profile, universities, my-universities, AI writer, mentors, dashboard, demo pages, and API handlers.
+
+Application shell and routing model
+The root layout sets global metadata, loads Google fonts, imports global CSS, renders the global NavReveal, and wraps all pages in the shared site shell. 
+The home page is the waitlist/landing entry point. It defines a server action called joinWaitlist, validates email, writes to the Supabase waitlist_signups table through the admin client, handles duplicate emails by updating metadata, and sends a confirmation email only for new signups.  The page renders DesignCosmos and passes that server action into it. 
+Auth-gated route protection is implemented in src/proxy.ts. The protected prefixes are /profile, /dashboard, /my-universities, and /writer; unauthenticated users attempting to visit those paths are redirected to /auth with a redirect query parameter.  The same proxy redirects authenticated users away from /auth to either the requested redirect target or /universities. 
+
+Authentication and Supabase clients
+There are three Supabase client helpers, each with a distinct purpose:
+Browser/client component Supabase client
+src/lib/supabase/client.ts creates a browser client using NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY. 
+Server component / route handler Supabase client
+src/lib/supabase/server.ts creates a server client backed by Next cookies so server-rendered routes can read and update auth sessions. 
+Admin Supabase client
+src/lib/supabase/admin.ts creates a service-role client using SUPABASE_SERVICE_ROLE_KEY, with token refresh and session persistence disabled. This is used for privileged operations like waitlist insertion and importing/fetching all universities. 
+The auth UI lives in src/app/auth. The page itself is a server component shell that renders the client AuthForm inside Suspense.  The form supports email/password sign-up, email/password login, and Google OAuth.  It builds a safe callback URL and preserves a redirect path only if it starts with /, which helps avoid open redirects. 
+The /auth/callback route exchanges Supabase auth codes for sessions, checks whether onboarding is complete, and redirects users to either /universities or /onboarding. 
+
+Core product flows
+1. Landing and waitlist
+The landing page is not just static marketing: it contains a server action that inserts a waitlist record into Supabase, treats duplicate email insertions specially, and optionally sends a waitlist confirmation email through sendEmail.  Email sending uses Resend via https://api.resend.com/emails, but safely no-ops if RESEND_API_KEY is missing or still placeholder-like. 
+2. Onboarding
+The onboarding page is server-rendered enough to check the current user and fetch an existing student_profiles record, then passes that profile and sign-in state to the globe/onboarding experience. 
+There is also a more traditional OnboardingForm client component. It loads and saves draft state from localStorage, supports signed-out users by redirecting them to auth, and persists completed onboarding back to Supabase with onboarding_completed and onboarding_completed_at fields. 
+The onboarding options are centralized in src/lib/onboarding-options.ts, including study levels, subject families, regions, budget/campus/support options, and step metadata. The profile type in src/lib/types.ts shows the data model that onboarding ultimately populates, including study level, target subjects, preferred countries, budget, goals, campus preferences, support needs, bio/location/nationality, achievements, skills, and onboarding completion fields. 
+3. Profile and document uploads
+/profile is protected. It fetches the signed-in user, the student profile, and uploaded documents in parallel.  It then renders profile identity, profile strength, academic profile, achievements/skills, and document sections. 
+Document uploads are handled in a client component. It supports cv and statement_of_purpose, uploads files to the student-documents Supabase Storage bucket, then records metadata in the uploaded_documents table. 
+4. University discovery
+/universities is one of the most important pages. It creates both a normal server Supabase client and an admin client, reads the current user, optionally loads their profile and saved universities, fetches all universities, computes match scores, converts each record into explorer-friendly display data, and sorts by match score or QS rank. 
+The client-side explorer uses a context/provider model. UniversityExplorerClient is a client component that imports UniversityExplorerProvider, useExplorer, filters, and ExplorerUniversity types from src/lib/explorer-context.tsx.  It dynamically imports the onboarding world picker with SSR disabled, which matters because globe/browser-heavy components often depend on window or WebGL. 
+The explorer context owns browse/detail/shortlist/application state, selected countries, filters, toasts, login/profile flags, and actions like adding/removing from shortlist and advancing applications.  When a logged-in user shortlists a university, the provider upserts into user_universities and generates application tasks from task_templates. 
+5. Matching logic
+The matching algorithm is a pure utility in src/lib/matching.ts. It computes a 0–100 score between a student profile and university, with a detailed breakdown suitable for UI tooltips. The weights are country 25%, subject 25%, budget 20%, study level 15%, campus vibe 10%, and support needs 5%. 
+The implementation gives partial credit for region-adjacent country matches, subject keywords, budget affordability, inferred study-level support, environment fit, and scholarship/affordability support. 
+6. My universities and application tracking
+/my-universities is protected and fetches the user’s saved universities joined with university details. It also fetches all application tasks for those saved user_universities records.  The page renders an application tracker shell and passes data to a client component for interactive behavior. 
+The explorer context can move shortlisted universities into an application flow by updating their user_universities.status to applying, then reloading active applications from the database.  It can also advance an application through stages and map those stages back onto statuses like applying, applied, and offer. 
+7. University detail and AI statement writer
+The nested route /my-universities/[id]/writer is protected. It verifies the user owns the selected user_universities row, fetches the joined university record, loads the student profile for match scoring, finds the latest existing personal-statement draft, and renders the statement writer with all of that context. 
+The AI analysis endpoint is src/app/api/ai/analyze-statement/route.ts. It requires an authenticated user, validates that the text is at least 20 characters, requires OPENAI_API_KEY, uses OPENAI_MODEL or defaults to gpt-4o-mini, calls OpenAI’s chat completions endpoint, strips possible markdown fences, parses JSON, and returns the analysis. 
+
+Shared data and types to understand
+The central domain model lives in src/lib/types.ts. A newcomer should start there because it defines:
+WaitlistState and WaitlistAction for the landing waitlist form. 
+UploadedDocument for Supabase document metadata. 
+StudentProfile for onboarding/profile data. 
+University for the university database schema. 
+UserUniversity, ApplicationTask, PersonalStatement, and AI analysis/suggestion/checklist types. 
+The explorer-specific display transformation lives in src/lib/explorer-utils.ts. It extends raw University rows with computed fields like match_score, match_breakdown, is_saved, emoji/color/tags/rank/location/rating/description/image URL/stats/requirements/reviews.  toExplorerUniversity derives tags, country visuals, requirements, fallback descriptions, and other display fields from the database record. 
+
+Important conventions and gotchas
+Server vs client components matter here
+Many route pages are server components that fetch Supabase data before rendering, while interactive forms and browser-only/globe-heavy experiences are client components with 'use client'. Examples include AuthForm, OnboardingForm, UniversityExplorerClient, explorer context, and upload forms. 
+There are multiple Supabase privilege levels
+Use the browser client for client-side user actions, the server client for authenticated server reads/writes with cookies, and the admin client only where service-role privileges are intentional. 
+Auth protection is centralized, but individual pages still guard themselves
+The proxy redirects unauthenticated users away from protected paths.  Protected server pages such as /profile, /my-universities, and the AI writer still call supabase.auth.getUser() and redirect('/auth') if needed, which is a useful defense-in-depth pattern. 
+Environment variables are required for real functionality
+The README explicitly requires Supabase URL, anon key, and service-role key.  Additional runtime features also depend on RESEND_API_KEY, WAITLIST_FROM_EMAIL, OPENAI_API_KEY, and optionally OPENAI_MODEL, as seen in the email helper and AI route. 
+The database schema is implied by the code
+There are no migrations visible in the inspected file set, so the schema must be inferred from table usage and TypeScript types. Important tables/buckets include:
+waitlist_signups in the landing server action. 
+student_profiles across onboarding/profile/universities. 
+universities for explorer data. 
+user_universities for saved universities and application statuses. 
+application_tasks and task_templates for task generation/tracking. 
+uploaded_documents plus the student-documents storage bucket for file uploads. 
+personal_statements for AI writer drafts. 
+The UI is heavily custom-styled
+The app uses Tailwind plus lots of custom CSS classes and design tokens in globals.css. Before changing UI, inspect the existing global classes and route-local component styles rather than introducing a separate design pattern. 
+
+Suggested learning path for a newcomer
+Run and understand the shell
+Read README.md, install dependencies, and run the dev server. 
+Inspect src/app/layout.tsx to understand the global app wrapper. 
+Learn the auth/session model
+Read the three Supabase client helpers. 
+Then read src/proxy.ts, src/app/auth/auth-form.tsx, and src/app/auth/callback/route.ts. 
+Learn the data model
+Start with src/lib/types.ts; it explains most of the product entities. 
+Then follow table usage in onboarding, profile, universities, and my-universities pages. 
+Trace the main user journey
+Landing/waitlist: src/app/page.tsx. 
+Auth: src/app/auth/page.tsx and src/app/auth/auth-form.tsx. 
+Onboarding: src/app/onboarding/page.tsx and src/app/onboarding/profile-form.tsx. 
+Universities explorer: src/app/universities/page.tsx, src/app/universities/university-explorer-client.tsx, and src/lib/explorer-context.tsx. 
+My universities/application tracker: src/app/my-universities/page.tsx and src/lib/explorer-context.tsx. 
+Understand matching and AI
+Matching is pure and deterministic in src/lib/matching.ts; it is a good place to start if you want to improve recommendations. 
+AI statement feedback is isolated behind an API route and can be improved or migrated independently. 
+Before making changes, check Next.js version-specific docs
+The repo’s AGENTS.md specifically warns that this is not the familiar Next.js API surface and tells agents/developers to read node_modules/next/dist/docs/ before coding.
+

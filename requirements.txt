@@ -1,0 +1,2 @@
+# No runtime dependencies. The ingestion CLI uses Python 3.11 standard library only.
+
