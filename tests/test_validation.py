@@ -6,7 +6,7 @@ from glowbal_ingestion.validation import validate_seed_rows, validate_source_row
 
 
 class ValidationTests(unittest.TestCase):
-    def test_source_validation_catches_duplicate_and_bad_type(self) -> None:
+    def test_source_validation_catches_exact_duplicate_and_bad_type(self) -> None:
         seed = [
             {
                 "university_id": "mit",
@@ -30,8 +30,16 @@ class ValidationTests(unittest.TestCase):
                 "university_id": "mit",
                 "university_name": "MIT",
                 "country": "United States",
-                "source_type": "bad_source",
+                "source_type": "tuition_fees",
                 "url": "https://example.edu/fees",
+                "crawl_method": "static",
+            },
+            {
+                "university_id": "mit",
+                "university_name": "MIT",
+                "country": "United States",
+                "source_type": "bad_source",
+                "url": "https://example.edu/bad",
                 "crawl_method": "static",
             },
         ]
@@ -39,7 +47,7 @@ class ValidationTests(unittest.TestCase):
         errors = validate_seed_rows(seed) + validate_source_rows(sources, seed)
 
         self.assertTrue(any("unsupported source_type" in error for error in errors))
-        self.assertTrue(any("duplicate URL" in error for error in errors))
+        self.assertTrue(any("duplicate source" in error for error in errors))
 
     def test_seed_validation_rejects_bad_url(self) -> None:
         errors = validate_seed_rows(
@@ -59,4 +67,3 @@ class ValidationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

@@ -262,11 +262,12 @@ def source_coverage_score(sources: list[dict[str, str]]) -> float:
 
 def data_quality(profile: dict[str, object]) -> tuple[float, list[str]]:
     missing: list[str] = []
-    for field in MUST_HAVE_PRODUCT_FIELDS:
+    scorable_fields = [field for field in MUST_HAVE_PRODUCT_FIELDS if field != "data_quality_score"]
+    for field in scorable_fields:
         value = profile.get(field)
         if value in ("", None, []):
             missing.append(field)
-    score = (len(MUST_HAVE_PRODUCT_FIELDS) - len(missing)) / len(MUST_HAVE_PRODUCT_FIELDS)
+    score = (len(scorable_fields) - len(missing)) / len(scorable_fields)
     return score, missing
 
 

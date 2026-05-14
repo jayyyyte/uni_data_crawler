@@ -51,7 +51,6 @@ def validate_source_rows(rows: list[dict[str, str]], seed_rows: list[dict[str, s
 
     seed_ids = {row.get("university_id", "") for row in seed_rows or []}
     seen_source_keys: set[tuple[str, str, str]] = set()
-    seen_urls_by_university: set[tuple[str, str]] = set()
 
     for index, row in enumerate(rows, start=2):
         university_id = row.get("university_id", "")
@@ -78,11 +77,6 @@ def validate_source_rows(rows: list[dict[str, str]], seed_rows: list[dict[str, s
             errors.append(f"source row {index}: duplicate source for {university_id} {source_type} {url}")
         seen_source_keys.add(source_key)
 
-        url_key = (university_id, url)
-        if url_key in seen_urls_by_university:
-            errors.append(f"source row {index}: duplicate URL for {university_id}: {url}")
-        seen_urls_by_university.add(url_key)
-
         priority = row.get("priority", "")
         if priority:
             try:
@@ -103,4 +97,3 @@ def is_valid_source_url(value: str) -> bool:
     if parsed.scheme == "file":
         return bool(parsed.path)
     return False
-

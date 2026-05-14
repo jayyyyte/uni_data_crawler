@@ -6,8 +6,10 @@ from pathlib import Path
 
 from glowbal_ingestion.crawler import crawl_sources
 from glowbal_ingestion.csv_io import read_csv
+from glowbal_ingestion.discovery import build_candidate_source_map, suggest_sources
 from glowbal_ingestion.extractors import extract_facts
 from glowbal_ingestion.profiles import build_profiles
+from glowbal_ingestion.source_map_tools import normalize_source_map
 from glowbal_ingestion.validation import validate_seed_rows, validate_source_rows
 
 
@@ -46,6 +48,22 @@ def main(argv: list[str] | None = None) -> int:
     discover_parser = subparsers.add_parser("discover-sources", help="Create a minimal source-map starter from seed rows")
     discover_parser.add_argument("--seed", required=True)
     discover_parser.add_argument("--out", required=True)
+
+    suggest_parser = subparsers.add_parser("suggest-sources", help="Suggest candidate source URLs from official homepage links")
+    suggest_parser.add_argument("--sources", required=True)
+    suggest_parser.add_argument("--out", required=True)
+    suggest_parser.add_argument("--timeout", type=int, default=25)
+
+    candidate_parser = subparsers.add_parser("build-source-map-candidates", help="Build a reviewable source map from suggestions")
+    candidate_parser.add_argument("--sources", required=True)
+    candidate_parser.add_argument("--suggestions", required=True)
+    candidate_parser.add_argument("--out", required=True)
+    candidate_parser.add_argument("--per-type-limit", type=int, default=1)
+
+    normalize_parser = subparsers.add_parser("normalize-source-map", help="Normalize source-map IDs and remove invalid rows")
+    normalize_parser.add_argument("--seed", required=True)
+    normalize_parser.add_argument("--sources", required=True)
+    normalize_parser.add_argument("--out", required=True)
 
     args = parser.parse_args(argv)
 
@@ -90,6 +108,29 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "discover-sources":
         return command_discover(args.seed, args.out)
+    if args.command == "suggest-sources":
+        suggestions = suggest_sources(read_csv(args.sources), args.out, timeout=args.timeout)
+        print(f"Wrote {len(suggestions)} source suggestions to {args.out}")
+        return 0
+    if args.command == "build-source-map-candidates":
+        rows = build_candidate_source_map(
+            read_csv(args.sources),
+            read_csv(args.suggestions),
+            args.out,
+            per_type_limit=args.per_type_limit,
+        )
+        print(f"Wrote {len(rows)} candidate source-map rows to {args.out}")
+        return 0
+    if args.command == "normalize-source-map":
+        stats = normalize_source_map(
+            read_csv(args.seed),
+            read_csv(args.sources),
+            args.out,
+            backup_input_path=args.sources,
+        )
+        for key, value in stats.items():
+            print(f"{key}: {value}")
+        return 0
 
     parser.error(f"Unsupported command: {args.command}")
     return 2
@@ -139,4 +180,3 @@ def command_discover(seed_path: str, out_path: str) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

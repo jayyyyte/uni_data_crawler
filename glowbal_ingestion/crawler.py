@@ -150,6 +150,7 @@ def fetch_bytes(url: str, timeout: int) -> tuple[bytes, str]:
         headers={
             "User-Agent": "GlowbalUniversityIngestion/0.1 (+https://glowbal.example)",
             "Accept": "text/html,application/xhtml+xml,application/pdf;q=0.9,*/*;q=0.8",
+            "Accept-Encoding": "identity",
         },
     )
     with urllib.request.urlopen(request, timeout=timeout) as response:
@@ -201,4 +202,3 @@ def guess_content_type(name: str) -> str:
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-
