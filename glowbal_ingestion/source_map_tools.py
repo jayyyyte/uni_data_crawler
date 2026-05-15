@@ -177,14 +177,20 @@ def apply_source_repairs(
     output_path: str | Path,
 ) -> dict[str, int]:
     seed_by_id = {row.get("university_id", ""): row for row in seed_rows}
+    normalized_repairs = [normalize_repair_row(row) for row in repair_rows]
     base_by_key = {
         (row.get("university_id", ""), row.get("source_type", "")): row
         for row in base_source_rows
     }
     repair_by_key = {
         (row.get("university_id", ""), row.get("source_type", "")): row
-        for row in repair_rows
-        if row.get("university_id") and row.get("source_type") and row.get("url")
+        for row in normalized_repairs
+        if row.get("university_id") and row.get("source_type") and row.get("source_type") != "all_sources" and row.get("url")
+    }
+    all_source_repairs = {
+        row.get("university_id", ""): row
+        for row in normalized_repairs
+        if row.get("university_id") and row.get("source_type") == "all_sources"
     }
     output_rows: list[dict[str, object]] = []
     used_repairs: set[tuple[str, str]] = set()
@@ -202,6 +208,12 @@ def apply_source_repairs(
         if repair:
             output_rows.append(source_row_from_repair(seed_by_id, base, repair))
             used_repairs.add(key)
+            stats["updated_rows"] += 1
+        elif base.get("university_id", "") in all_source_repairs:
+            output = reset_source_status(base)
+            output["crawl_method"] = all_source_repairs[base.get("university_id", "")].get("crawl_method", "") or output.get("crawl_method", "static")
+            output["notes"] = all_source_repairs[base.get("university_id", "")].get("notes", "") or output.get("notes", "")
+            output_rows.append(output)
             stats["updated_rows"] += 1
         else:
             output_rows.append(reset_source_status(base))
@@ -241,6 +253,21 @@ def apply_source_repairs(
     write_csv(output_path, output_rows, SOURCE_COLUMNS)
     stats["output_rows"] = len(output_rows)
     return stats
+
+
+def normalize_repair_row(row: dict[str, str]) -> dict[str, str]:
+    url = row.get("url", "") or row.get("new_url", "") or row.get("New URL / Alternative", "")
+    url = url.strip().strip("()")
+    if not url.lower().startswith(("http://", "https://")):
+        url = ""
+    action = row.get("notes", "") or row.get("Action / Repair", "")
+    return {
+        "university_id": row.get("university_id", ""),
+        "source_type": row.get("source_type", ""),
+        "url": url,
+        "crawl_method": row.get("crawl_method", "") or "static",
+        "notes": action,
+    }
 
 
 def source_row_from_repair(

@@ -8,7 +8,9 @@ from glowbal_ingestion.crawler import crawl_sources
 from glowbal_ingestion.csv_io import read_csv
 from glowbal_ingestion.discovery import build_candidate_source_map, suggest_sources
 from glowbal_ingestion.extractors import extract_facts
+from glowbal_ingestion.manifest import default_run_id, write_run_manifest
 from glowbal_ingestion.profiles import build_profiles
+from glowbal_ingestion.quality import classify_evidence_rows
 from glowbal_ingestion.source_map_tools import apply_source_repairs, build_retry_source_map, merge_crawl_outputs, normalize_source_map
 from glowbal_ingestion.validation import validate_seed_rows, validate_source_rows
 
@@ -38,6 +40,8 @@ def main(argv: list[str] | None = None) -> int:
     profile_parser.add_argument("--rankings", required=True)
     profile_parser.add_argument("--out-dir", required=True)
     profile_parser.add_argument("--country-costs", default="")
+    profile_parser.add_argument("--evidence", default="")
+    profile_parser.add_argument("--run-id", default="")
 
     run_parser = subparsers.add_parser("run-pilot", help="Run validate, crawl, extract, and profile stages")
     run_parser.add_argument("--seed", required=True)
@@ -46,6 +50,7 @@ def main(argv: list[str] | None = None) -> int:
     run_parser.add_argument("--out-dir", required=True)
     run_parser.add_argument("--timeout", type=int, default=25)
     run_parser.add_argument("--country-costs", default="")
+    run_parser.add_argument("--run-id", default="")
 
     discover_parser = subparsers.add_parser("discover-sources", help="Create a minimal source-map starter from seed rows")
     discover_parser.add_argument("--seed", required=True)
@@ -85,6 +90,11 @@ def main(argv: list[str] | None = None) -> int:
     repair_parser.add_argument("--repairs", required=True)
     repair_parser.add_argument("--out", required=True)
 
+    classify_parser = subparsers.add_parser("classify-evidence", help="Backfill evidence content quality columns")
+    classify_parser.add_argument("--sources", required=True)
+    classify_parser.add_argument("--evidence", required=True)
+    classify_parser.add_argument("--out", required=True)
+
     args = parser.parse_args(argv)
 
     if args.command == "validate-sources":
@@ -108,7 +118,9 @@ def main(argv: list[str] | None = None) -> int:
             read_csv(args.rankings),
             args.out_dir,
             read_optional_csv(args.country_costs),
+            read_optional_csv(args.evidence),
         )
+        write_profile_manifest(args.out_dir, args.run_id, args.seed, args.sources, args.facts, args.rankings, args.country_costs, args.evidence)
         print(f"Wrote product and QA exports to {args.out_dir}")
         return 0
     if args.command == "run-pilot":
@@ -125,7 +137,9 @@ def main(argv: list[str] | None = None) -> int:
             read_csv(args.rankings),
             out_dir,
             read_optional_csv(args.country_costs),
+            read_csv(out_dir / "evidence.csv"),
         )
+        write_pipeline_manifest(args.out_dir, args.run_id, args.seed, args.sources, args.rankings, args.country_costs)
         print(f"Pilot pipeline complete: {out_dir}")
         return 0
     if args.command == "discover-sources":
@@ -179,6 +193,14 @@ def main(argv: list[str] | None = None) -> int:
         for key, value in stats.items():
             print(f"{key}: {value}")
         return 0
+    if args.command == "classify-evidence":
+        from glowbal_ingestion.constants import EVIDENCE_COLUMNS
+        from glowbal_ingestion.csv_io import write_csv
+
+        rows = classify_evidence_rows(read_csv(args.sources), read_csv(args.evidence))
+        write_csv(args.out, rows, EVIDENCE_COLUMNS)
+        print(f"Wrote {len(rows)} classified evidence rows to {args.out}")
+        return 0
 
     parser.error(f"Unsupported command: {args.command}")
     return 2
@@ -199,6 +221,80 @@ def command_validate(seed_path: str, sources_path: str) -> int:
 
 def read_optional_csv(path: str) -> list[dict[str, str]]:
     return read_csv(path) if path else []
+
+
+def write_profile_manifest(
+    out_dir: str,
+    run_id: str,
+    seed: str,
+    sources: str,
+    facts: str,
+    rankings: str,
+    country_costs: str,
+    evidence: str,
+) -> None:
+    output_dir = Path(out_dir)
+    write_run_manifest(
+        output_dir,
+        run_id or default_run_id("profiles"),
+        {
+            "seed": seed,
+            "sources": sources,
+            "evidence": evidence,
+            "facts": facts,
+            "rankings": rankings,
+            "country_costs": country_costs,
+        },
+        {
+            "sources": sources,
+            "evidence": evidence,
+            "facts": facts,
+            "programs": str(output_dir / "programs.csv"),
+            "product_profiles": str(output_dir / "university_product_profiles.csv"),
+            "import": str(output_dir / "universities_import.csv"),
+            "matching_tags": str(output_dir / "university_matching_tags.csv"),
+            "writer_context": str(output_dir / "university_writer_context.csv"),
+            "qa_report": str(output_dir / "qa_report.csv"),
+            "batch_qa_report": str(output_dir / "batch_qa_report.csv"),
+            "field_gap_report": str(output_dir / "field_gap_report.csv"),
+            "quality_gate": str(output_dir / "pilot_quality_gate.csv"),
+        },
+    )
+
+
+def write_pipeline_manifest(
+    out_dir: str,
+    run_id: str,
+    seed: str,
+    sources: str,
+    rankings: str,
+    country_costs: str,
+) -> None:
+    output_dir = Path(out_dir)
+    write_run_manifest(
+        output_dir,
+        run_id or default_run_id("pilot"),
+        {
+            "seed": seed,
+            "sources": sources,
+            "rankings": rankings,
+            "country_costs": country_costs,
+        },
+        {
+            "sources": str(output_dir / "sources.csv"),
+            "evidence": str(output_dir / "evidence.csv"),
+            "facts": str(output_dir / "facts.csv"),
+            "programs": str(output_dir / "programs.csv"),
+            "product_profiles": str(output_dir / "university_product_profiles.csv"),
+            "import": str(output_dir / "universities_import.csv"),
+            "matching_tags": str(output_dir / "university_matching_tags.csv"),
+            "writer_context": str(output_dir / "university_writer_context.csv"),
+            "qa_report": str(output_dir / "qa_report.csv"),
+            "batch_qa_report": str(output_dir / "batch_qa_report.csv"),
+            "field_gap_report": str(output_dir / "field_gap_report.csv"),
+            "quality_gate": str(output_dir / "pilot_quality_gate.csv"),
+        },
+    )
 
 
 def command_discover(seed_path: str, out_path: str) -> int:

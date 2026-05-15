@@ -10,8 +10,11 @@ def read_csv(path: str | Path) -> list[dict[str, str]]:
     csv_path = Path(path)
     if not csv_path.exists():
         raise FileNotFoundError(f"CSV file not found: {csv_path}")
-    with csv_path.open("r", encoding="utf-8-sig", newline="") as handle:
-        return [normalize_row(row) for row in csv.DictReader(handle)]
+    with csv_path.open("r", encoding="utf-8-sig", errors="replace", newline="") as handle:
+        sample = handle.read(4096)
+        handle.seek(0)
+        delimiter = "\t" if sample.splitlines() and sample.splitlines()[0].count("\t") > sample.splitlines()[0].count(",") else ","
+        return [row for row in (normalize_row(row) for row in csv.DictReader(handle, delimiter=delimiter)) if any(row.values())]
 
 
 def write_csv(path: str | Path, rows: Iterable[dict[str, object]], columns: list[str]) -> None:
@@ -45,4 +48,3 @@ def parse_json_cell(value: str) -> object:
         return json.loads(value)
     except json.JSONDecodeError:
         return None
-

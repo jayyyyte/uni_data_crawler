@@ -58,6 +58,11 @@ EVIDENCE_COLUMNS = [
     "extracted_text",
     "retrieved_at",
     "parser_version",
+    "fetch_status",
+    "content_quality_status",
+    "content_quality_reason",
+    "text_len",
+    "content_signal_score",
     "status",
     "error",
 ]
@@ -73,11 +78,32 @@ FACT_COLUMNS = [
     "value_number",
     "value_currency",
     "value_date",
+    "fact_origin",
     "evidence_id",
     "source_url",
     "confidence_score",
     "review_status",
     "extracted_at",
+]
+
+BATCH_QA_COLUMNS = [
+    "university_id",
+    "display_name",
+    "source_count",
+    "usable_evidence_count",
+    "blocked_evidence_count",
+    "failed_source_count",
+    "tuition_fact_count",
+    "valid_tuition_fact_count",
+    "deadline_fact_count",
+    "valid_deadline_fact_count",
+    "english_fact_count",
+    "valid_english_fact_count",
+    "matching_tag_count",
+    "has_product_profile",
+    "import_status",
+    "qa_status",
+    "qa_notes",
 ]
 
 PROGRAM_COLUMNS = [
@@ -131,14 +157,19 @@ PRODUCT_COLUMNS = [
     "writer_context",
     "evidence_coverage_score",
     "data_quality_score",
+    "import_status",
     "review_status",
 ]
 
 COUNTRY_COST_COLUMNS = [
     "country",
+    "country_code",
     "annual_living_usd_min",
     "annual_living_usd_max",
+    "currency",
     "source_url",
+    "source_type",
+    "confidence_score",
     "retrieved_at",
     "review_status",
     "notes",
@@ -186,6 +217,13 @@ QUALITY_GATE_COLUMNS = [
     "threshold",
     "status",
     "notes",
+]
+
+FIELD_GAP_COLUMNS = [
+    "university_id",
+    "display_name",
+    "missing_field",
+    "import_status",
 ]
 
 REQUIRED_SOURCE_TYPES = {

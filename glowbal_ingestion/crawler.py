@@ -14,6 +14,7 @@ from urllib.parse import urlparse
 from .constants import EVIDENCE_COLUMNS, PARSER_VERSION, SOURCE_COLUMNS
 from .csv_io import write_csv
 from .ids import stable_id
+from .quality import classify_evidence_quality
 
 
 class _HTMLTextExtractor(HTMLParser):
@@ -72,6 +73,11 @@ def crawl_sources(source_rows: list[dict[str, str]], out_dir: str | Path, timeou
             "extracted_text": "",
             "retrieved_at": now,
             "parser_version": PARSER_VERSION,
+            "fetch_status": "failed",
+            "content_quality_status": "fetch_failed",
+            "content_quality_reason": "",
+            "text_len": "0",
+            "content_signal_score": "0.00",
             "status": "failed",
             "error": "",
         }
@@ -117,14 +123,22 @@ def crawl_static(source: dict[str, str], evidence: dict[str, object], timeout: i
         evidence["title"] = title
         evidence["extracted_text"] = text
         evidence["content_hash"] = hashlib.sha256(text.encode("utf-8")).hexdigest() if text else ""
-        if is_blocked_response(text):
-            evidence["status"] = "failed"
-            evidence["error"] = "blocked or bot-protection response"
-            return "failed", now
         evidence["status"] = "ok" if text else "empty"
+        evidence["fetch_status"] = "fetched" if text else "failed"
+        evidence.update(
+            classify_evidence_quality(
+                source.get("source_type", ""),
+                str(evidence.get("title", "")),
+                text,
+                str(evidence.get("fetch_status", "")),
+                str(evidence.get("error", "")),
+            )
+        )
         return ("fetched" if text else "failed", now)
     except Exception as exc:  # noqa: BLE001 - store crawl failures as evidence rows.
         evidence["status"] = "failed"
+        evidence["fetch_status"] = "failed"
+        evidence.update(classify_evidence_quality(source.get("source_type", ""), "", "", "failed", str(exc)))
         evidence["error"] = str(exc)
         return "failed", now
 
@@ -138,6 +152,8 @@ def crawl_pdf_placeholder(source: dict[str, str], evidence: dict[str, object], t
         return "fetched", now
     except Exception as exc:  # noqa: BLE001
         evidence["status"] = "failed"
+        evidence["fetch_status"] = "failed"
+        evidence.update(classify_evidence_quality(source.get("source_type", ""), "", "", "failed", str(exc)))
         evidence["error"] = str(exc)
         return "failed", now
 
@@ -169,11 +185,17 @@ def crawl_playwright(source: dict[str, str], evidence: dict[str, object], timeou
         evidence["title"] = title
         evidence["extracted_text"] = text
         evidence["content_hash"] = hashlib.sha256(text.encode("utf-8")).hexdigest() if text else ""
-        if is_blocked_response(text):
-            evidence["status"] = "failed"
-            evidence["error"] = "blocked or bot-protection response"
-            return "failed", now
         evidence["status"] = "ok" if text else "empty"
+        evidence["fetch_status"] = "fetched" if text else "failed"
+        evidence.update(
+            classify_evidence_quality(
+                source.get("source_type", ""),
+                str(evidence.get("title", "")),
+                text,
+                str(evidence.get("fetch_status", "")),
+                str(evidence.get("error", "")),
+            )
+        )
         return ("fetched" if text else "failed", now)
     except Exception as exc:  # noqa: BLE001 - store crawl failures as evidence rows.
         evidence["status"] = "failed"
