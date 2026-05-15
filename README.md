@@ -39,6 +39,19 @@ python ingest.py extract-facts --sources exports/pilot/sources.csv --evidence ex
 python ingest.py build-profiles --seed data/seed_universities_50.csv --sources exports/pilot/sources.csv --facts exports/pilot/facts.csv --rankings data/rankings_import.csv --out-dir exports/pilot
 ```
 
+Retry failed required sources without recrawling the whole batch:
+
+```powershell
+python ingest.py build-retry-source-map --sources exports/pilot_curated/sources.csv --out exports/pilot_curated/retry_required_sources.csv --source-types official_home,undergraduate_admissions,tuition_fees,english_requirements
+python ingest.py crawl-sources --sources exports/pilot_curated/retry_required_sources.csv --out-dir exports/pilot_curated_retry_required --timeout 12
+python ingest.py merge-crawl-outputs --base-sources exports/pilot_curated/sources.csv --base-evidence exports/pilot_curated/evidence.csv --retry-sources exports/pilot_curated_retry_required/sources.csv --retry-evidence exports/pilot_curated_retry_required/evidence.csv --out-dir exports/pilot_curated_merged
+```
+
+After building profiles, review:
+
+- `source_repair_required.csv`: required source URLs still failing.
+- `field_gap_report.csv`: missing must-have product fields per university.
+
 Run tests:
 
 ```powershell

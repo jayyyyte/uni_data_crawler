@@ -1,2 +1,51 @@
 university_id,qs_rank,the_rank,arwu_rank,rank_display,ranking_source_url,retrieved_at,review_status,notes
-
+mit,1,,,QS 2026 #1,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+stanford,3,,,QS 2026 #3,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+harvard,5,,,QS 2026 #5,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+uc-berkeley,17,,,QS 2026 #=17,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+caltech,10,,,QS 2026 #10,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+princeton,25,,,QS 2026 #=25,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+yale,21,,,QS 2026 #21,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+columbia,38,,,QS 2026 #=38,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+uchicago,13,,,QS 2026 #13,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+upenn,15,,,QS 2026 #15,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+cornell,16,,,QS 2026 #16,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+cmu,52,,,QS 2026 #52,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+toronto,29,,,QS 2026 #29,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+ubc,40,,,QS 2026 #40,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+mcgill,27,,,QS 2026 #27,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+oxford,4,,,QS 2026 #4,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+cambridge,6,,,QS 2026 #6,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+imperial,2,,,QS 2026 #2,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+ucl,9,,,QS 2026 #9,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+lse,56,,,QS 2026 #56,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+edinburgh,34,,,QS 2026 #34,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+manchester,35,,,QS 2026 #35,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+kcl,31,,,QS 2026 #31,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+eth-zurich,7,,,QS 2026 #7,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+epfl,22,,,QS 2026 #=22,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+tum,22,,,QS 2026 #=22,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+lmu-munich,58,,,QS 2026 #=58,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+heidelberg,80,,,QS 2026 #80,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+sorbonne,72,,,QS 2026 #=72,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+sciences-po,367,,,QS 2026 #=367,https://www.topuniversities.com/universities/sciences-po,2026-05-14,approved,QS World University Rankings 2026
+amsterdam,53,,,QS 2026 #53,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+delft,47,,,QS 2026 #=47,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+ku-leuven,60,,,QS 2026 #60,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+bocconi,,,,QS 2026 not in published World University Rankings,https://www.topuniversities.com/universities/bocconi-university,2026-05-14,needs_review,QS page lists subject ranking/contributor status; no QS WUR rank 2026
+nus,8,,,QS 2026 #8,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+ntu-singapore,12,,,QS 2026 #12,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+hku,11,,,QS 2026 #11,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+cuhk,32,,,QS 2026 #=32,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+hkust,44,,,QS 2026 #44,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+tokyo,36,,,QS 2026 #=36,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+kyoto,57,,,QS 2026 #57,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+snu,38,,,QS 2026 #=38,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+kaist,,,,QS 2026 excluded,https://www.topuniversities.com/rankings-release-summaries/world-university-rankings-2026-release-summary,2026-05-14,needs_review,QS says KAIST does not appear in 2026 WUR following rankings guidelines breach
+tsinghua,17,,,QS 2026 #=17,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+peking,14,,,QS 2026 #14,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+melbourne,19,,,QS 2026 #19,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+sydney,25,,,QS 2026 #=25,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+anu,32,,,QS 2026 #=32,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+unsw,20,,,QS 2026 #20,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+auckland,65,,,QS 2026 #65,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
