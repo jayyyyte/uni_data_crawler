@@ -23,6 +23,7 @@ def build_profiles(
     fact_rows: list[dict[str, str]],
     ranking_rows: list[dict[str, str]],
     out_dir: str | Path,
+    country_cost_rows: list[dict[str, str]] | None = None,
 ) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
     facts_by_university: dict[str, list[dict[str, str]]] = defaultdict(list)
     for fact in fact_rows:
@@ -33,6 +34,7 @@ def build_profiles(
         sources_by_university[source.get("university_id", "")].append(source)
 
     rankings_by_university = {row.get("university_id", ""): row for row in ranking_rows}
+    country_costs = {row.get("country", ""): row for row in country_cost_rows or []}
 
     profiles: list[dict[str, object]] = []
     qa_rows: list[dict[str, object]] = []
@@ -50,6 +52,8 @@ def build_profiles(
 
         tuition_min, tuition_max = usd_range(facts, "tuition", "annual_fee_range")
         living_min, living_max = usd_range(facts, "living_cost", "annual_living_cost_range")
+        if living_min == "" or living_max == "":
+            living_min, living_max = country_living_range(seed.get("country", ""), country_costs)
         total_min = safe_sum(tuition_min, living_min)
         total_max = safe_sum(tuition_max, living_max)
 
@@ -176,6 +180,16 @@ def usd_range(facts: list[dict[str, str]], fact_type: str, fact_key: str) -> tup
     if not lows or not highs:
         return "", ""
     return min(lows), max(highs)
+
+
+def country_living_range(country: str, country_costs: dict[str, dict[str, str]]) -> tuple[int | str, int | str]:
+    row = country_costs.get(country)
+    if not row:
+        return "", ""
+    try:
+        return int(row.get("annual_living_usd_min", "")), int(row.get("annual_living_usd_max", ""))
+    except ValueError:
+        return "", ""
 
 
 def english_summary(facts: list[dict[str, str]]) -> str:

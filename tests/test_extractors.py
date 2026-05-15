@@ -52,7 +52,31 @@ class ExtractorTests(unittest.TestCase):
         self.assertTrue(any(fact["fact_key"] == "IELTS" for fact in facts))
         self.assertTrue(any(fact["value_text"] == "computer_science" for fact in facts))
 
+    def test_english_summary_fallback_without_numeric_score(self) -> None:
+        sources = [
+            {
+                "source_id": "src_1",
+                "university_id": "demo",
+                "source_type": "english_requirements",
+                "url": "https://example.edu/english",
+            },
+        ]
+        evidence = [
+            {
+                "evidence_id": "ev_1",
+                "source_id": "src_1",
+                "university_id": "demo",
+                "url": "https://example.edu/english",
+                "status": "ok",
+                "extracted_text": "A strong knowledge of English is essential for successful study. English language proficiency examinations such as TOEFL and IELTS may be submitted for review.",
+            },
+        ]
+
+        with tempfile.TemporaryDirectory() as tmp:
+            facts, _programs = extract_facts(sources, evidence, Path(tmp))
+
+        self.assertTrue(any(fact["fact_type"] == "english_requirement" and fact["fact_key"] == "summary" for fact in facts))
+
 
 if __name__ == "__main__":
     unittest.main()
-

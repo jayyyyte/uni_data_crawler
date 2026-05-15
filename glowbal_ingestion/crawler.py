@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import html
 import re
+import ssl
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
@@ -80,9 +81,7 @@ def crawl_sources(source_rows: list[dict[str, str]], out_dir: str | Path, timeou
             evidence["status"] = "manual"
             evidence["error"] = "manual source; crawler skipped"
         elif crawl_method == "playwright":
-            evidence["status"] = "playwright_required"
-            evidence["error"] = "playwright crawl_method requested; static standard-library crawler skipped"
-            status = "skipped"
+            status, last_crawled_at = crawl_playwright(source, evidence, timeout, now)
         elif crawl_method == "pdf" or source.get("url", "").lower().endswith(".pdf"):
             status, last_crawled_at = crawl_pdf_placeholder(source, evidence, timeout, now)
         else:
@@ -118,6 +117,10 @@ def crawl_static(source: dict[str, str], evidence: dict[str, object], timeout: i
         evidence["title"] = title
         evidence["extracted_text"] = text
         evidence["content_hash"] = hashlib.sha256(text.encode("utf-8")).hexdigest() if text else ""
+        if is_blocked_response(text):
+            evidence["status"] = "failed"
+            evidence["error"] = "blocked or bot-protection response"
+            return "failed", now
         evidence["status"] = "ok" if text else "empty"
         return ("fetched" if text else "failed", now)
     except Exception as exc:  # noqa: BLE001 - store crawl failures as evidence rows.
@@ -139,6 +142,45 @@ def crawl_pdf_placeholder(source: dict[str, str], evidence: dict[str, object], t
         return "failed", now
 
 
+def crawl_playwright(source: dict[str, str], evidence: dict[str, object], timeout: int, now: str) -> tuple[str, str]:
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        evidence["status"] = "playwright_required"
+        evidence["error"] = "playwright package is not installed; run `pip install playwright` and `python -m playwright install chromium`"
+        return "skipped", ""
+
+    try:
+        with sync_playwright() as playwright:
+            browser = playwright.chromium.launch(headless=True)
+            page = browser.new_page(
+                user_agent=(
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/124.0 Safari/537.36 GlowbalUniversityIngestion/0.1"
+                ),
+                locale="en-US",
+            )
+            page.goto(source.get("url", ""), wait_until="domcontentloaded", timeout=timeout * 1000)
+            page.wait_for_timeout(1500)
+            title = page.title()
+            text = normalize_text(page.locator("body").inner_text(timeout=timeout * 1000))
+            browser.close()
+        evidence["title"] = title
+        evidence["extracted_text"] = text
+        evidence["content_hash"] = hashlib.sha256(text.encode("utf-8")).hexdigest() if text else ""
+        if is_blocked_response(text):
+            evidence["status"] = "failed"
+            evidence["error"] = "blocked or bot-protection response"
+            return "failed", now
+        evidence["status"] = "ok" if text else "empty"
+        return ("fetched" if text else "failed", now)
+    except Exception as exc:  # noqa: BLE001 - store crawl failures as evidence rows.
+        evidence["status"] = "failed"
+        evidence["error"] = str(exc)
+        return "failed", now
+
+
 def fetch_bytes(url: str, timeout: int) -> tuple[bytes, str]:
     parsed = urlparse(url)
     if parsed.scheme == "file":
@@ -148,14 +190,27 @@ def fetch_bytes(url: str, timeout: int) -> tuple[bytes, str]:
     request = urllib.request.Request(
         url,
         headers={
-            "User-Agent": "GlowbalUniversityIngestion/0.1 (+https://glowbal.example)",
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/124.0 Safari/537.36 GlowbalUniversityIngestion/0.1"
+            ),
             "Accept": "text/html,application/xhtml+xml,application/pdf;q=0.9,*/*;q=0.8",
             "Accept-Encoding": "identity",
+            "Accept-Language": "en-US,en;q=0.9",
         },
     )
-    with urllib.request.urlopen(request, timeout=timeout) as response:
-        content_type = response.headers.get("content-type", "")
-        return response.read(), content_type
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            content_type = response.headers.get("content-type", "")
+            return response.read(), content_type
+    except urllib.error.URLError as exc:
+        if "CERTIFICATE_VERIFY_FAILED" not in str(exc):
+            raise
+        insecure_context = ssl._create_unverified_context()
+        with urllib.request.urlopen(request, timeout=timeout, context=insecure_context) as response:
+            content_type = response.headers.get("content-type", "")
+            return response.read(), content_type
 
 
 def extract_text(body: bytes, content_type: str) -> tuple[str, str]:
@@ -189,6 +244,18 @@ def looks_like_html(value: str) -> bool:
 
 def normalize_text(value: str) -> str:
     return re.sub(r"\s+", " ", html.unescape(value)).strip()
+
+
+def is_blocked_response(text: str) -> bool:
+    lowered = text.lower()
+    blocked_markers = [
+        "request unsuccessful. incapsula incident id",
+        "access denied",
+        "captcha",
+        "verify you are human",
+        "enable javascript and cookies",
+    ]
+    return any(marker in lowered for marker in blocked_markers)
 
 
 def guess_content_type(name: str) -> str:

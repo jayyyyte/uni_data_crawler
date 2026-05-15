@@ -105,7 +105,31 @@ class ProfileTests(unittest.TestCase):
         self.assertEqual(left_profiles[0]["local_name"], "示例大学")
         self.assertEqual(left_profiles[0]["total_cost_usd_min"], 33300)
 
+    def test_build_profiles_uses_country_living_cost_fallback(self) -> None:
+        seed = [
+            {
+                "university_id": "demo",
+                "name": "Demo University",
+                "country": "Japan",
+                "city": "Tokyo",
+                "website_url": "https://demo.jp",
+                "type": "public",
+            }
+        ]
+        country_costs = [
+            {
+                "country": "Japan",
+                "annual_living_usd_min": "12000",
+                "annual_living_usd_max": "18000",
+            }
+        ]
+
+        with tempfile.TemporaryDirectory() as tmp:
+            profiles, _qa = build_profiles(seed, [], [], [], Path(tmp), country_costs)
+
+        self.assertEqual(profiles[0]["living_cost_usd_min"], 12000)
+        self.assertEqual(profiles[0]["living_cost_usd_max"], 18000)
+
 
 if __name__ == "__main__":
     unittest.main()
-

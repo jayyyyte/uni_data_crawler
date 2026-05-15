@@ -9,7 +9,7 @@ from glowbal_ingestion.csv_io import read_csv
 from glowbal_ingestion.discovery import build_candidate_source_map, suggest_sources
 from glowbal_ingestion.extractors import extract_facts
 from glowbal_ingestion.profiles import build_profiles
-from glowbal_ingestion.source_map_tools import normalize_source_map
+from glowbal_ingestion.source_map_tools import apply_source_repairs, build_retry_source_map, merge_crawl_outputs, normalize_source_map
 from glowbal_ingestion.validation import validate_seed_rows, validate_source_rows
 
 
@@ -37,6 +37,7 @@ def main(argv: list[str] | None = None) -> int:
     profile_parser.add_argument("--facts", required=True)
     profile_parser.add_argument("--rankings", required=True)
     profile_parser.add_argument("--out-dir", required=True)
+    profile_parser.add_argument("--country-costs", default="")
 
     run_parser = subparsers.add_parser("run-pilot", help="Run validate, crawl, extract, and profile stages")
     run_parser.add_argument("--seed", required=True)
@@ -44,6 +45,7 @@ def main(argv: list[str] | None = None) -> int:
     run_parser.add_argument("--rankings", required=True)
     run_parser.add_argument("--out-dir", required=True)
     run_parser.add_argument("--timeout", type=int, default=25)
+    run_parser.add_argument("--country-costs", default="")
 
     discover_parser = subparsers.add_parser("discover-sources", help="Create a minimal source-map starter from seed rows")
     discover_parser.add_argument("--seed", required=True)
@@ -64,6 +66,24 @@ def main(argv: list[str] | None = None) -> int:
     normalize_parser.add_argument("--seed", required=True)
     normalize_parser.add_argument("--sources", required=True)
     normalize_parser.add_argument("--out", required=True)
+
+    retry_parser = subparsers.add_parser("build-retry-source-map", help="Build a retry source map from failed/skipped source rows")
+    retry_parser.add_argument("--sources", required=True)
+    retry_parser.add_argument("--out", required=True)
+    retry_parser.add_argument("--source-types", default="")
+
+    merge_parser = subparsers.add_parser("merge-crawl-outputs", help="Merge successful retry crawl rows into a base crawl output")
+    merge_parser.add_argument("--base-sources", required=True)
+    merge_parser.add_argument("--base-evidence", required=True)
+    merge_parser.add_argument("--retry-sources", required=True)
+    merge_parser.add_argument("--retry-evidence", required=True)
+    merge_parser.add_argument("--out-dir", required=True)
+
+    repair_parser = subparsers.add_parser("apply-source-repairs", help="Apply source_repair_resolved.csv into a full source map")
+    repair_parser.add_argument("--seed", required=True)
+    repair_parser.add_argument("--base-sources", required=True)
+    repair_parser.add_argument("--repairs", required=True)
+    repair_parser.add_argument("--out", required=True)
 
     args = parser.parse_args(argv)
 
@@ -87,6 +107,7 @@ def main(argv: list[str] | None = None) -> int:
             read_csv(args.facts),
             read_csv(args.rankings),
             args.out_dir,
+            read_optional_csv(args.country_costs),
         )
         print(f"Wrote product and QA exports to {args.out_dir}")
         return 0
@@ -103,6 +124,7 @@ def main(argv: list[str] | None = None) -> int:
             read_csv(out_dir / "facts.csv"),
             read_csv(args.rankings),
             out_dir,
+            read_optional_csv(args.country_costs),
         )
         print(f"Pilot pipeline complete: {out_dir}")
         return 0
@@ -131,6 +153,32 @@ def main(argv: list[str] | None = None) -> int:
         for key, value in stats.items():
             print(f"{key}: {value}")
         return 0
+    if args.command == "build-retry-source-map":
+        source_types = {part.strip() for part in args.source_types.split(",") if part.strip()} or None
+        rows = build_retry_source_map(read_csv(args.sources), args.out, source_types=source_types)
+        print(f"Wrote {len(rows)} retry source rows to {args.out}")
+        return 0
+    if args.command == "merge-crawl-outputs":
+        stats = merge_crawl_outputs(
+            read_csv(args.base_sources),
+            read_csv(args.base_evidence),
+            read_csv(args.retry_sources),
+            read_csv(args.retry_evidence),
+            args.out_dir,
+        )
+        for key, value in stats.items():
+            print(f"{key}: {value}")
+        return 0
+    if args.command == "apply-source-repairs":
+        stats = apply_source_repairs(
+            read_csv(args.seed),
+            read_csv(args.base_sources),
+            read_csv(args.repairs),
+            args.out,
+        )
+        for key, value in stats.items():
+            print(f"{key}: {value}")
+        return 0
 
     parser.error(f"Unsupported command: {args.command}")
     return 2
@@ -147,6 +195,10 @@ def command_validate(seed_path: str, sources_path: str) -> int:
         return 1
     print("Validation passed")
     return 0
+
+
+def read_optional_csv(path: str) -> list[dict[str, str]]:
+    return read_csv(path) if path else []
 
 
 def command_discover(seed_path: str, out_path: str) -> int:

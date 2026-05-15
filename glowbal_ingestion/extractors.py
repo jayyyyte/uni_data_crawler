@@ -172,6 +172,17 @@ def extract_english_requirements(evidence: dict[str, str], text: str) -> list[di
                     confidence_score=0.72,
                 )
             )
+    summary = english_requirement_summary(text)
+    if summary:
+        facts.append(
+            make_fact(
+                evidence,
+                "english_requirement",
+                "summary",
+                value_text=summary,
+                confidence_score=0.58,
+            )
+        )
     return facts
 
 
@@ -288,3 +299,20 @@ def infer_first_tag(text: str, taxonomy: dict[str, list[str]]) -> str:
             return tag
     return ""
 
+
+def english_requirement_summary(text: str) -> str:
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    candidates = []
+    for sentence in sentences:
+        cleaned = clean_sentence(sentence)
+        lowered = cleaned.lower()
+        if not cleaned or len(cleaned) < 30:
+            continue
+        if any(keyword in lowered for keyword in ["english language", "english proficiency", "toefl", "ielts", "pte", "duolingo"]):
+            candidates.append(cleaned)
+        if len(candidates) >= 2:
+            break
+    if not candidates:
+        return ""
+    summary = " ".join(candidates)
+    return summary[:500].rstrip()

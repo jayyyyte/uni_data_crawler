@@ -134,6 +134,16 @@ PRODUCT_COLUMNS = [
     "review_status",
 ]
 
+COUNTRY_COST_COLUMNS = [
+    "country",
+    "annual_living_usd_min",
+    "annual_living_usd_max",
+    "source_url",
+    "retrieved_at",
+    "review_status",
+    "notes",
+]
+
 MATCHING_COLUMNS = [
     "university_id",
     "subject_tags",
