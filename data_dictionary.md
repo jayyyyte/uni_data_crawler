@@ -10,7 +10,7 @@
 
 ## Input Files
 
-### `seed_universities_50.csv`
+### `seed_universities.csv`
 
 Required columns:
 
@@ -28,7 +28,7 @@ Optional columns:
 - `country_group`: broad matching region such as `Asia`, `Europe`, `North America`.
 - `notes`: internal QA notes.
 
-### `source_map_50.csv`
+### `source_map.csv`
 
 Required columns:
 
@@ -130,8 +130,15 @@ Must-have pilot fields:
 - `application_system`
 - `deadline_summary`
 - `english_requirement_summary`
+- `cert_requirement_summary`: standardized/non-English proficiency certificates such as SAT, ACT, GRE, GMAT, IB, A-Level, HSK, JLPT, TOPIK.
+- `cert_requirement_tags`: controlled cert tags.
+- `portfolio_required`
+- `interview_required`
 - `data_quality_score`
+- `import_status`
 - `review_status`
+
+`english_requirement_summary` is only for English proficiency evidence such as IELTS, TOEFL iBT, PTE, Duolingo, and Cambridge English. SAT/ACT/GRE/GMAT and similar certificates belong in `cert_requirement_summary`.
 
 ### Matching Taxonomies
 
@@ -186,4 +193,3 @@ Support tags:
 - `internship_friendly`
 - `english_support`
 - `visa_support`
-

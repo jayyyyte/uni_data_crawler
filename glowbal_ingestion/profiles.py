@@ -8,6 +8,7 @@ from pathlib import Path
 from .constants import (
     BATCH_QA_COLUMNS,
     CURRENCY_TO_USD,
+    CERT_DISPLAY_NAMES,
     FIELD_GAP_COLUMNS,
     MATCHING_COLUMNS,
     MUST_HAVE_PRODUCT_FIELDS,
@@ -89,6 +90,10 @@ def build_profiles(
         application_system = first_value(facts, "application", "application_system")
         deadline_summary = deadline_summary_from_candidates(facts)
         english_requirement_summary = english_summary(facts)
+        cert_requirement_tags = cert_tags(facts)
+        cert_requirement_summary = cert_summary(cert_requirement_tags)
+        portfolio_required = bool_value(first_value(facts, "application", "portfolio_required"))
+        interview_required = bool_value(first_value(facts, "application", "interview_required"))
 
         strengths = infer_strengths(subject_tags, support_tags)
         best_for = infer_best_for(subject_tags, study_level_tags, support_tags)
@@ -125,7 +130,11 @@ def build_profiles(
             "application_system": application_system,
             "deadline_summary": deadline_summary,
             "english_requirement_summary": english_requirement_summary,
-            "requirement_summary": compact_join([deadline_summary, english_requirement_summary]),
+            "cert_requirement_summary": cert_requirement_summary,
+            "cert_requirement_tags": cert_requirement_tags,
+            "portfolio_required": portfolio_required if portfolio_required is not None else "",
+            "interview_required": interview_required if interview_required is not None else "",
+            "requirement_summary": compact_join([deadline_summary, english_requirement_summary, cert_requirement_summary]),
             "strengths": strengths,
             "best_for": best_for,
             "weaknesses": [],
@@ -247,6 +256,20 @@ def english_summary(facts: list[dict[str, str]]) -> str:
     return clean_summary_text(" or ".join(values[:3]), 160)
 
 
+def cert_tags(facts: list[dict[str, str]]) -> list[str]:
+    values = {
+        fact.get("fact_key", "")
+        for fact in facts
+        if fact.get("fact_type") == "cert_requirement" and fact.get("fact_key")
+    }
+    return sorted(values)
+
+
+def cert_summary(tags: list[str]) -> str:
+    values = [CERT_DISPLAY_NAMES.get(tag, tag.replace("_", "-")) for tag in tags]
+    return clean_summary_text("; ".join(values[:8]), 160)
+
+
 def deadline_summary_from_candidates(facts: list[dict[str, str]]) -> str:
     values: list[str] = []
     for fact in facts:
@@ -323,7 +346,15 @@ def apply_product_validators(profile: dict[str, object]) -> None:
     profile["english_requirement_summary"] = english if has_valid_english_score(english) else ""
 
     profile["requirement_summary"] = clean_summary_text(
-        compact_join([str(profile.get("deadline_summary", "")), str(profile.get("english_requirement_summary", ""))]),
+        compact_join(
+            [
+                str(profile.get("deadline_summary", "")),
+                str(profile.get("english_requirement_summary", "")),
+                str(profile.get("cert_requirement_summary", "")),
+                "Portfolio required" if profile.get("portfolio_required") is True else "",
+                "Interview required" if profile.get("interview_required") is True else "",
+            ]
+        ),
         280,
     )
 

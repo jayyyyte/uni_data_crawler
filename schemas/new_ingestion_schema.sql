@@ -178,6 +178,10 @@ create table if not exists ingestion.university_product_profiles (
   application_system text,
   deadline_summary text,
   english_requirement_summary text,
+  cert_requirement_summary text,
+  cert_requirement_tags text[],
+  portfolio_required boolean,
+  interview_required boolean,
   requirement_summary text,
 
   strengths text[],

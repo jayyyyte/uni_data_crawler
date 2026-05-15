@@ -7,6 +7,7 @@ from pathlib import Path
 
 from .constants import (
     APPLICATION_SYSTEM_KEYWORDS,
+    CERT_REQUIREMENT_PATTERNS,
     FACT_COLUMNS,
     PROGRAM_COLUMNS,
     STUDY_LEVEL_KEYWORDS,
@@ -92,6 +93,7 @@ def extract_facts(
             facts.extend(extract_english_requirements(evidence, text))
         elif source_type in {"undergraduate_admissions", "graduate_admissions", "international_admissions"}:
             facts.extend(extract_application_facts(evidence, text))
+            facts.extend(extract_cert_requirements(evidence, text))
         elif source_type == "scholarships":
             facts.extend(extract_scholarship_facts(evidence, text))
         elif source_type == "program_catalog":
@@ -105,8 +107,18 @@ def extract_facts(
     facts.sort(key=lambda row: (str(row.get("university_id", "")), str(row.get("fact_type", "")), str(row.get("fact_key", "")), str(row.get("source_url", ""))))
     programs.sort(key=lambda row: (str(row.get("university_id", "")), str(row.get("name", ""))))
     write_csv(Path(out_dir) / "facts.csv", facts, FACT_COLUMNS)
+    write_csv(Path(out_dir) / "facts_extracted.csv", extracted_fact_rows(facts), FACT_COLUMNS)
+    write_csv(Path(out_dir) / "facts_generated.csv", generated_fact_rows(facts), FACT_COLUMNS)
     write_csv(Path(out_dir) / "programs.csv", programs, PROGRAM_COLUMNS)
     return facts, programs
+
+
+def extracted_fact_rows(facts: list[dict[str, object]]) -> list[dict[str, object]]:
+    return [fact for fact in facts if fact.get("fact_origin") in {"extracted_from_source", "manual"}]
+
+
+def generated_fact_rows(facts: list[dict[str, object]]) -> list[dict[str, object]]:
+    return [fact for fact in facts if fact.get("fact_origin") not in {"extracted_from_source", "manual"}]
 
 
 def make_fact(
@@ -240,6 +252,10 @@ def extract_application_facts(evidence: dict[str, str], text: str) -> list[dict[
             break
     if "rolling admission" in lowered or "rolling admissions" in lowered:
         facts.append(make_fact(evidence, "application", "rolling_admission", "true", confidence_score=0.75))
+    if "portfolio" in lowered:
+        facts.append(make_fact(evidence, "application", "portfolio_required", "true", confidence_score=0.62))
+    if "interview" in lowered:
+        facts.append(make_fact(evidence, "application", "interview_required", "true", confidence_score=0.58))
     for candidate in deadline_candidates(text)[:4]:
         facts.append(
             make_fact(
@@ -253,6 +269,66 @@ def extract_application_facts(evidence: dict[str, str], text: str) -> list[dict[
             )
         )
     return facts
+
+
+def extract_cert_requirements(evidence: dict[str, str], text: str) -> list[dict[str, object]]:
+    facts: list[dict[str, object]] = []
+    for cert_key, pattern in CERT_REQUIREMENT_PATTERNS.items():
+        match = re.search(pattern, text, flags=re.I)
+        if not match:
+            continue
+        context = context_window(text, match.start(), match.end(), radius=120)
+        if cert_context_is_relevant(context, cert_key, match.group(0)):
+            facts.append(
+                make_fact(
+                    evidence,
+                    "cert_requirement",
+                    cert_key,
+                    value_text=cert_key,
+                    value_json={"cert": cert_key, "context": context[:240]},
+                    confidence_score=cert_confidence(context),
+                )
+            )
+    return facts
+
+
+def cert_context_is_relevant(context: str, cert_key: str, matched_text: str) -> bool:
+    lowered = context.lower()
+    if any(keyword in lowered for keyword in ["certificate", "certification authority", "copyright"]):
+        return False
+    if cert_key in {"ACT", "AP", "IB", "STEP"} and matched_text != matched_text.upper():
+        return False
+    if cert_key == "STEP" and not any(
+        keyword in lowered
+        for keyword in ["step mathematics", "sixth term", "admissions test", "admission test", "mathematics test", "mathematical"]
+    ):
+        return False
+    return any(
+        keyword in lowered
+        for keyword in [
+            "required",
+            "requirement",
+            "admission",
+            "apply",
+            "application",
+            "submit",
+            "score",
+            "qualification",
+            "exam",
+            "test",
+            "optional",
+            "accepted",
+        ]
+    )
+
+
+def cert_confidence(context: str) -> float:
+    lowered = context.lower()
+    if any(keyword in lowered for keyword in ["required", "requirement", "must submit"]):
+        return 0.72
+    if any(keyword in lowered for keyword in ["optional", "accepted", "may submit"]):
+        return 0.60
+    return 0.52
 
 
 def extract_scholarship_facts(evidence: dict[str, str], text: str) -> list[dict[str, object]]:

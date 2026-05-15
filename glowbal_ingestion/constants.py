@@ -150,6 +150,10 @@ PRODUCT_COLUMNS = [
     "application_system",
     "deadline_summary",
     "english_requirement_summary",
+    "cert_requirement_summary",
+    "cert_requirement_tags",
+    "portfolio_required",
+    "interview_required",
     "requirement_summary",
     "strengths",
     "best_for",
@@ -187,6 +191,7 @@ MATCHING_COLUMNS = [
     "living_cost_usd_max",
     "total_cost_usd_min",
     "total_cost_usd_max",
+    "cert_requirement_tags",
 ]
 
 WRITER_CONTEXT_COLUMNS = [
@@ -310,6 +315,30 @@ SUPPORT_KEYWORDS = {
     "internship_friendly": ["internship", "placement"],
     "english_support": ["english language support", "academic english"],
     "visa_support": ["visa", "immigration advice"],
+}
+
+CERT_REQUIREMENT_PATTERNS = {
+    "SAT": r"\bSAT\b",
+    "ACT": r"\bACT\b",
+    "GRE": r"\bGRE\b",
+    "GMAT": r"\bGMAT\b",
+    "LSAT": r"\bLSAT\b",
+    "MCAT": r"\bMCAT\b",
+    "LNAT": r"\bLNAT\b",
+    "UCAT": r"\bUCAT\b",
+    "BMAT": r"\bBMAT\b",
+    "TMUA": r"\bTMUA\b",
+    "STEP": r"\bSTEP\b",
+    "AP": r"\bAP\b",
+    "IB": r"\bIB\b|International Baccalaureate",
+    "A_LEVEL": r"\bA-?levels?\b|Advanced Level",
+    "HSK": r"\bHSK\b",
+    "JLPT": r"\bJLPT\b",
+    "TOPIK": r"\bTOPIK\b",
+}
+
+CERT_DISPLAY_NAMES = {
+    "A_LEVEL": "A-Level",
 }
 
 APPLICATION_SYSTEM_KEYWORDS = {

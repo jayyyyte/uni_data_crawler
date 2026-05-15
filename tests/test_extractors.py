@@ -28,6 +28,12 @@ class ExtractorTests(unittest.TestCase):
                 "source_type": "program_catalog",
                 "url": "https://example.edu/programs",
             },
+            {
+                "source_id": "src_4",
+                "university_id": "demo",
+                "source_type": "undergraduate_admissions",
+                "url": "https://example.edu/apply",
+            },
         ]
         evidence = [
             {
@@ -54,6 +60,14 @@ class ExtractorTests(unittest.TestCase):
                 "status": "ok",
                 "extracted_text": "Bachelor programs include Engineering and Computer Science.",
             },
+            {
+                "evidence_id": "ev_4",
+                "source_id": "src_4",
+                "university_id": "demo",
+                "url": "https://example.edu/english",
+                "status": "ok",
+                "extracted_text": "Applicants may submit SAT or ACT scores. A portfolio is required for design applicants.",
+            },
         ]
 
         with tempfile.TemporaryDirectory() as tmp:
@@ -65,6 +79,8 @@ class ExtractorTests(unittest.TestCase):
         self.assertTrue(any(fact["fact_type"] == "tuition" for fact in facts))
         self.assertTrue(any(fact["fact_key"] == "IELTS" for fact in facts))
         self.assertTrue(any(fact["value_text"] == "computer_science" for fact in facts))
+        self.assertTrue(any(fact["fact_type"] == "cert_requirement" and fact["fact_key"] == "SAT" for fact in facts))
+        self.assertTrue(any(fact["fact_type"] == "application" and fact["fact_key"] == "portfolio_required" for fact in facts))
 
     def test_english_summary_fallback_without_numeric_score(self) -> None:
         sources = [
@@ -90,6 +106,31 @@ class ExtractorTests(unittest.TestCase):
             facts, _programs = extract_facts(sources, evidence, Path(tmp))
 
         self.assertTrue(any(fact["fact_type"] == "english_requirement" and fact["fact_key"] == "summary" for fact in facts))
+
+    def test_cert_extractor_does_not_treat_common_step_as_certificate(self) -> None:
+        sources = [
+            {
+                "source_id": "src_1",
+                "university_id": "demo",
+                "source_type": "undergraduate_admissions",
+                "url": "https://example.edu/apply",
+            },
+        ]
+        evidence = [
+            {
+                "evidence_id": "ev_1",
+                "source_id": "src_1",
+                "university_id": "demo",
+                "url": "https://example.edu/apply",
+                "status": "ok",
+                "extracted_text": "The next step in the application process is to submit your documents by the deadline.",
+            },
+        ]
+
+        with tempfile.TemporaryDirectory() as tmp:
+            facts, _programs = extract_facts(sources, evidence, Path(tmp))
+
+        self.assertFalse(any(fact["fact_type"] == "cert_requirement" and fact["fact_key"] == "STEP" for fact in facts))
 
 
 if __name__ == "__main__":

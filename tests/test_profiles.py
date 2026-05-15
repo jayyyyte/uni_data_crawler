@@ -159,6 +159,8 @@ class ProfileTests(unittest.TestCase):
                 "value_text": "Skip navigation English language requirements IELTS 7.0 and TOEFL 100",
             },
             {"university_id": "demo", "fact_type": "english_requirement", "fact_key": "IELTS", "value_text": "IELTS 7.0"},
+            {"university_id": "demo", "fact_type": "cert_requirement", "fact_key": "SAT", "value_text": "SAT"},
+            {"university_id": "demo", "fact_type": "application", "fact_key": "portfolio_required", "value_text": "true"},
         ]
 
         with tempfile.TemporaryDirectory() as tmp:
@@ -166,6 +168,8 @@ class ProfileTests(unittest.TestCase):
 
         self.assertEqual(profiles[0]["deadline_summary"], "Early: Nov 1")
         self.assertEqual(profiles[0]["english_requirement_summary"], "IELTS 7.0")
+        self.assertEqual(profiles[0]["cert_requirement_summary"], "SAT")
+        self.assertEqual(profiles[0]["portfolio_required"], True)
         self.assertNotIn("Skip navigation", profiles[0]["requirement_summary"])
 
 

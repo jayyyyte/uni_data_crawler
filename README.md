@@ -4,8 +4,8 @@ Evidence-first ingestion pipeline for Glowbal university data. The first phase i
 
 ## What This Pipeline Does
 
-1. Reads a curated `seed_universities_50.csv`.
-2. Reads a curated `source_map_50.csv`.
+1. Reads a curated `seed_universities.csv`.
+2. Reads a curated `source_map.csv`.
 3. Validates required columns, source types, duplicate URLs, crawl methods, and URL shape.
 4. Crawls only approved source URLs.
 5. Stores page evidence with source URL, content hash, parser version, language, and status.
@@ -15,28 +15,33 @@ Evidence-first ingestion pipeline for Glowbal university data. The first phase i
 
 The crawler does not fabricate values. If a value cannot be extracted from evidence, it remains empty or `needs_review`.
 
+English proficiency and certificate requirements are separated:
+
+- `english_requirement_summary`: IELTS, TOEFL iBT, PTE, Duolingo, Cambridge English.
+- `cert_requirement_summary`: SAT, ACT, GRE, GMAT, LSAT, MCAT, LNAT, UCAT, BMAT, TMUA, STEP, AP, IB, A-Level, HSK, JLPT, TOPIK.
+
 ## Quick Start
 
 Validate the pilot input files:
 
 ```powershell
-python ingest.py validate-sources --seed data/seed_universities_50.csv --sources data/source_map_50.csv
+python ingest.py validate-sources --seed data/seed_universities.csv --sources data/source_map.csv
 ```
 
 Run the full pilot pipeline:
 
 ```powershell
-python ingest.py run-pilot --seed data/seed_universities_50.csv --sources data/source_map_50.csv --rankings data/rankings_import.csv --country-costs data/country_cost_of_living.csv --out-dir exports/pilot
+python ingest.py run-pilot --seed data/seed_universities.csv --sources data/source_map.csv --rankings data/rankings_import.csv --country-costs data/country_cost_of_living.csv --out-dir exports/pilot
 ```
 
 Run one stage at a time:
 
 ```powershell
-python ingest.py crawl-sources --sources data/source_map_50.csv --out-dir exports/pilot
+python ingest.py crawl-sources --sources data/source_map.csv --out-dir exports/pilot
 python ingest.py suggest-sources --sources exports/pilot/sources.csv --out exports/pilot/source_suggestions.csv
-python ingest.py build-source-map-candidates --sources exports/pilot/sources.csv --suggestions exports/pilot/source_suggestions.csv --out exports/pilot/source_map_50_candidates.csv
+python ingest.py build-source-map-candidates --sources exports/pilot/sources.csv --suggestions exports/pilot/source_suggestions.csv --out exports/pilot/source_map_candidates.csv
 python ingest.py extract-facts --sources exports/pilot/sources.csv --evidence exports/pilot/evidence.csv --out-dir exports/pilot
-python ingest.py build-profiles --seed data/seed_universities_50.csv --sources exports/pilot/sources.csv --facts exports/pilot/facts.csv --rankings data/rankings_import.csv --country-costs data/country_cost_of_living.csv --evidence exports/pilot/evidence.csv --out-dir exports/pilot --run-id pilot50_validated_v04
+python ingest.py build-profiles --seed data/seed_universities.csv --sources exports/pilot/sources.csv --facts exports/pilot/facts.csv --rankings data/rankings_import.csv --country-costs data/country_cost_of_living.csv --evidence exports/pilot/evidence.csv --out-dir exports/pilot --run-id pilot_validated_v04
 ```
 
 Retry failed required sources without recrawling the whole batch:
@@ -50,7 +55,7 @@ python ingest.py merge-crawl-outputs --base-sources exports/pilot_curated/source
 Apply manually reviewed source repairs:
 
 ```powershell
-python ingest.py apply-source-repairs --seed data/seed_universities_50.csv --base-sources exports/pilot_validated/source_map_repaired.csv --repairs exports/pilot_validated/source_repair_remaining_fix.csv --out exports/pilot_validated/source_map_repaired_v04.csv
+python ingest.py apply-source-repairs --seed data/seed_universities.csv --base-sources exports/pilot_validated/source_map_repaired.csv --repairs exports/pilot_validated/source_repair_remaining_fix.csv --out exports/pilot_validated/source_map_repaired_v04.csv
 ```
 
 After building profiles, review:
@@ -68,8 +73,8 @@ python -m unittest discover -s tests
 
 ## Main Inputs
 
-- `data/seed_universities_50.csv`: one row per university in the pilot batch.
-- `data/source_map_50.csv`: approved source URLs. The crawler only reads these URLs.
+- `data/seed_universities.csv`: one row per university in the active batch.
+- `data/source_map.csv`: approved source URLs. The crawler only reads these URLs.
 - `data/rankings_import.csv`: curated ranking import for QS/THE/ARWU values.
 - `data/country_cost_of_living.csv`: country-level annual living-cost fallback used for budget matching.
 
