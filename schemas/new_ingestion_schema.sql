@@ -2,8 +2,9 @@
 -- This schema is intentionally separate from the existing app-facing universities table.
 
 create extension if not exists pgcrypto;
+create schema if not exists ingestion;
 
-create table if not exists university_sources (
+create table if not exists ingestion.university_sources (
   id uuid primary key default gen_random_uuid(),
   university_id text,
   university_name text not null,
@@ -37,14 +38,14 @@ create table if not exists university_sources (
 );
 
 create index if not exists university_sources_university_idx
-  on university_sources (university_id);
+  on ingestion.university_sources (university_id);
 
 create index if not exists university_sources_source_type_idx
-  on university_sources (source_type);
+  on ingestion.university_sources (source_type);
 
-create table if not exists university_evidence (
+create table if not exists ingestion.university_evidence (
   id uuid primary key default gen_random_uuid(),
-  source_id uuid references university_sources(id) on delete set null,
+  source_id uuid references ingestion.university_sources(id) on delete set null,
   university_id text,
   url text not null,
   title text,
@@ -53,21 +54,40 @@ create table if not exists university_evidence (
   extracted_text text,
   retrieved_at timestamptz default now(),
   parser_version text,
+  fetch_status text default 'fetched' check (fetch_status in ('fetched', 'failed')),
+  content_quality_status text default 'needs_classification' check (
+    content_quality_status in (
+      'needs_classification',
+      'usable',
+      'blocked',
+      'too_short',
+      'not_found',
+      'fetch_failed',
+      'js_challenge',
+      'pdf_download',
+      'low_signal',
+      'irrelevant'
+    )
+  ),
+  content_quality_reason text,
+  text_len int,
+  content_signal_score numeric,
+  extraction_status text default 'not_started' check (extraction_status in ('not_started', 'extracted', 'skipped', 'failed')),
   status text default 'ok' check (status in ('ok', 'empty', 'failed', 'manual', 'unsupported_pdf', 'playwright_required')),
   error text,
   created_at timestamptz default now()
 );
 
 create index if not exists university_evidence_university_idx
-  on university_evidence (university_id);
+  on ingestion.university_evidence (university_id);
 
 create index if not exists university_evidence_source_idx
-  on university_evidence (source_id);
+  on ingestion.university_evidence (source_id);
 
 create index if not exists university_evidence_hash_idx
-  on university_evidence (content_hash);
+  on ingestion.university_evidence (content_hash);
 
-create table if not exists university_programs (
+create table if not exists ingestion.university_programs (
   id uuid primary key default gen_random_uuid(),
   university_id text not null,
   name text not null,
@@ -84,12 +104,12 @@ create table if not exists university_programs (
 );
 
 create index if not exists university_programs_university_idx
-  on university_programs (university_id);
+  on ingestion.university_programs (university_id);
 
-create table if not exists university_facts (
+create table if not exists ingestion.university_facts (
   id uuid primary key default gen_random_uuid(),
   university_id text,
-  program_id uuid references university_programs(id) on delete set null,
+  program_id uuid references ingestion.university_programs(id) on delete set null,
   fact_type text not null,
   fact_key text not null,
   value_text text,
@@ -97,24 +117,34 @@ create table if not exists university_facts (
   value_number numeric,
   value_currency text,
   value_date date,
-  evidence_id uuid references university_evidence(id) on delete set null,
+  fact_origin text default 'extracted_from_source' check (
+    fact_origin in (
+      'extracted_from_source',
+      'inferred_from_text',
+      'generated_by_rule',
+      'generated_by_llm',
+      'manual'
+    )
+  ),
+  evidence_id uuid references ingestion.university_evidence(id) on delete set null,
   source_url text,
   confidence_score numeric check (confidence_score is null or (confidence_score >= 0 and confidence_score <= 1)),
+  extraction_status text default 'extracted' check (extraction_status in ('not_started', 'extracted', 'skipped', 'failed')),
   review_status text default 'needs_review' check (review_status in ('needs_review', 'approved', 'rejected', 'generated')),
   extracted_at timestamptz default now(),
   created_at timestamptz default now()
 );
 
 create index if not exists university_facts_university_idx
-  on university_facts (university_id);
+  on ingestion.university_facts (university_id);
 
 create index if not exists university_facts_type_key_idx
-  on university_facts (fact_type, fact_key);
+  on ingestion.university_facts (fact_type, fact_key);
 
 create index if not exists university_facts_evidence_idx
-  on university_facts (evidence_id);
+  on ingestion.university_facts (evidence_id);
 
-create table if not exists university_product_profiles (
+create table if not exists ingestion.university_product_profiles (
   university_id text primary key,
   display_name text,
   local_name text,
@@ -157,13 +187,13 @@ create table if not exists university_product_profiles (
 
   evidence_coverage_score numeric,
   data_quality_score numeric,
+  import_status text default 'internal_preview' check (import_status in ('ready_for_import', 'internal_preview', 'identity_only', 'do_not_import')),
   review_status text default 'draft' check (review_status in ('draft', 'needs_review', 'approved', 'rejected')),
   updated_at timestamptz default now()
 );
 
 create index if not exists university_product_profiles_country_idx
-  on university_product_profiles (country);
+  on ingestion.university_product_profiles (country);
 
 create index if not exists university_product_profiles_review_idx
-  on university_product_profiles (review_status);
-
+  on ingestion.university_product_profiles (review_status);

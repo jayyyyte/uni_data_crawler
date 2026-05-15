@@ -1,17 +1,17 @@
-country,annual_living_usd_min,annual_living_usd_max,source_url,retrieved_at,review_status,notes
-Australia,,,,,needs_review,Fill one country-level annual living-cost range and apply to all Australian universities
-Belgium,,,,,needs_review,Fill one country-level annual living-cost range and apply to all Belgian universities
-Canada,,,,,needs_review,Fill one country-level annual living-cost range and apply to all Canadian universities
-China,,,,,needs_review,Fill one country-level annual living-cost range and apply to all Chinese universities
-France,,,,,needs_review,Fill one country-level annual living-cost range and apply to all French universities
-Germany,,,,,needs_review,Fill one country-level annual living-cost range and apply to all German universities
-Hong Kong,,,,,needs_review,Fill one country-level annual living-cost range and apply to all Hong Kong universities
-Italy,,,,,needs_review,Fill one country-level annual living-cost range and apply to all Italian universities
-Japan,,,,,needs_review,Fill one country-level annual living-cost range and apply to all Japanese universities
-Netherlands,,,,,needs_review,Fill one country-level annual living-cost range and apply to all Dutch universities
-New Zealand,,,,,needs_review,Fill one country-level annual living-cost range and apply to all New Zealand universities
-Singapore,,,,,needs_review,Fill one country-level annual living-cost range and apply to all Singapore universities
-South Korea,,,,,needs_review,Fill one country-level annual living-cost range and apply to all South Korean universities
-Switzerland,,,,,needs_review,Fill one country-level annual living-cost range and apply to all Swiss universities
-United Kingdom,,,,,needs_review,Fill one country-level annual living-cost range and apply to all UK universities
-United States,,,,,needs_review,Fill one country-level annual living-cost range and apply to all US universities
+country,country_code,annual_living_usd_min,annual_living_usd_max,currency,source_url,source_type,confidence_score,retrieved_at,review_status,notes
+Australia,AU,19608,33264,USD,https://beyondhorizons.com.au/student-visa-living-cost-requirements/,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for Australian universities
+Belgium,BE,14986,25488,USD,https://www.visahq.com/news/2026-03-04/be/belgium-hikes-required-living-budget-for-non-eu-student-visas-to-1062-per-month/,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for Belgian universities
+Canada,CA,16713,30222,USD,https://www.educanada.ca/programs-programmes/education_cost-cout_education.aspx?lang=eng,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for Canadian universities
+China,CN,4500,12000,USD,https://aelconsultants.com/cost-of-studying-in-china/,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for Chinese universities
+France,FR,8708,25488,USD,https://edvoy.com/articles/cost-of-studying-in-france/,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for French universities
+Germany,DE,14046,25912,USD,https://www.cbs.de/en/blog/opening-german-blocked-account,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for German universities
+Hong Kong,HK,16154,33846,USD,https://qogentglobal.com/study-in-hong-kong-sar/finance/living-costs,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for Hong Kong universities
+Italy,IT,14160,31270,USD,https://europickeducation.com/article/?slug=italy-student-visa-financial-requirements-2026-complete-guide,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for Italian universities
+Japan,JP,8700,29961,USD,https://www.study-abroad.org/blog/jp-costs-guide/,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for Japanese universities
+Netherlands,NL,11328,29500,USD,https://www.study-abroad.org/blog/nl-costs-guide/,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for Dutch universities
+New Zealand,NZ,10800,28577,USD,https://nzimmigration.info/nz-student-visa-financial-requirements-guide-checklist/,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for New Zealand universities
+Singapore,SG,7584,27757,USD,https://www.educations.com/countries/singapore/cost,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for Singapore universities
+South Korea,KR,6000,20000,USD,https://www.study-abroad.org/blog/kr-costs-guide/,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for South Korean universities
+Switzerland,CH,19980,29970,USD,https://leapscholar.com/blog/cost-of-studying-in-switzerland/,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for Swiss universities
+United Kingdom,GB,18267,39000,USD,https://daadscholarship.com/minimum-financial-requirement-for-uk-visa-application-in-2026-new-policies/,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for UK universities
+United States,US,12000,45000,USD,https://stuaccommodation.com/blog/cost-of-living-in-usa/,trusted_estimate,0.75,2026-05-15,approved,Country-level annual living-cost fallback for US universities

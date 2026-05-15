@@ -26,7 +26,7 @@ python ingest.py validate-sources --seed data/seed_universities_50.csv --sources
 Run the full pilot pipeline:
 
 ```powershell
-python ingest.py run-pilot --seed data/seed_universities_50.csv --sources data/source_map_50.csv --rankings data/rankings_import.csv --out-dir exports/pilot
+python ingest.py run-pilot --seed data/seed_universities_50.csv --sources data/source_map_50.csv --rankings data/rankings_import.csv --country-costs data/country_cost_of_living.csv --out-dir exports/pilot
 ```
 
 Run one stage at a time:
@@ -36,7 +36,7 @@ python ingest.py crawl-sources --sources data/source_map_50.csv --out-dir export
 python ingest.py suggest-sources --sources exports/pilot/sources.csv --out exports/pilot/source_suggestions.csv
 python ingest.py build-source-map-candidates --sources exports/pilot/sources.csv --suggestions exports/pilot/source_suggestions.csv --out exports/pilot/source_map_50_candidates.csv
 python ingest.py extract-facts --sources exports/pilot/sources.csv --evidence exports/pilot/evidence.csv --out-dir exports/pilot
-python ingest.py build-profiles --seed data/seed_universities_50.csv --sources exports/pilot/sources.csv --facts exports/pilot/facts.csv --rankings data/rankings_import.csv --out-dir exports/pilot
+python ingest.py build-profiles --seed data/seed_universities_50.csv --sources exports/pilot/sources.csv --facts exports/pilot/facts.csv --rankings data/rankings_import.csv --country-costs data/country_cost_of_living.csv --evidence exports/pilot/evidence.csv --out-dir exports/pilot --run-id pilot50_validated_v04
 ```
 
 Retry failed required sources without recrawling the whole batch:
@@ -47,10 +47,18 @@ python ingest.py crawl-sources --sources exports/pilot_curated/retry_required_so
 python ingest.py merge-crawl-outputs --base-sources exports/pilot_curated/sources.csv --base-evidence exports/pilot_curated/evidence.csv --retry-sources exports/pilot_curated_retry_required/sources.csv --retry-evidence exports/pilot_curated_retry_required/evidence.csv --out-dir exports/pilot_curated_merged
 ```
 
+Apply manually reviewed source repairs:
+
+```powershell
+python ingest.py apply-source-repairs --seed data/seed_universities_50.csv --base-sources exports/pilot_validated/source_map_repaired.csv --repairs exports/pilot_validated/source_repair_remaining_fix.csv --out exports/pilot_validated/source_map_repaired_v04.csv
+```
+
 After building profiles, review:
 
-- `source_repair_required.csv`: required source URLs still failing.
+- `source_repair_remaining.csv`: required source URLs still failing.
+- `source_map_repaired_v04.csv`: repaired source map for the next retry crawl.
 - `field_gap_report.csv`: missing must-have product fields per university.
+- `run_manifest.json`: run metadata, input/output files, row counts, and quality gate summary.
 
 Run tests:
 
@@ -63,6 +71,7 @@ python -m unittest discover -s tests
 - `data/seed_universities_50.csv`: one row per university in the pilot batch.
 - `data/source_map_50.csv`: approved source URLs. The crawler only reads these URLs.
 - `data/rankings_import.csv`: curated ranking import for QS/THE/ARWU values.
+- `data/country_cost_of_living.csv`: country-level annual living-cost fallback used for budget matching.
 
 ## Main Outputs
 
@@ -74,6 +83,9 @@ QA outputs:
 - `exports/pilot/programs.csv`
 - `exports/pilot/qa_report.csv`
 - `exports/pilot/pilot_quality_gate.csv`
+- `exports/pilot/batch_qa_report.csv`
+- `exports/pilot/field_gap_report.csv`
+- `exports/pilot/run_manifest.json`
 
 Product outputs:
 
@@ -87,7 +99,7 @@ Product outputs:
 The staging schema is in:
 
 ```text
-schemas/02_new_ingestion_schema.sql
+schemas/new_ingestion_schema.sql
 ```
 
-Load this only when the team is ready to persist pilot outputs into Supabase staging tables. Phase 1 does not change the existing app-facing `universities` table.
+Load this only when the team is ready to persist pilot outputs into Supabase staging tables. It creates an `ingestion` schema and does not change the existing app-facing `public.universities` table.
