@@ -28,10 +28,40 @@ MONEY_PATTERN = re.compile(
 IELTS_PATTERN = re.compile(r"IELTS[^.\n]{0,80}?(?P<score>[5-9](?:\.\d)?)", flags=re.I)
 TOEFL_PATTERN = re.compile(r"TOEFL[^.\n]{0,80}?(?P<score>\d{2,3})", flags=re.I)
 PTE_PATTERN = re.compile(r"\bPTE\b[^.\n]{0,80}?(?P<score>\d{2,3})", flags=re.I)
-DEADLINE_PATTERN = re.compile(
-    r"((?:deadline|apply by|applications? close|closing date)[^.\n]{0,160})",
+DATE_PATTERN = re.compile(
+    r"\b(?:\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?\s+\d{4}|"
+    r"(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2}(?:,\s*\d{4})?|"
+    r"\d{8})\b",
     flags=re.I,
 )
+
+MONEY_REJECT_KEYWORDS = [
+    "application fee",
+    "deposit",
+    "housing",
+    "room",
+    "board",
+    "meal",
+    "books",
+    "personal expenses",
+    "transportation",
+    "financial aid",
+    "family income",
+    "scholarship",
+    "grant",
+    "cost of attendance",
+    "estimated expenses",
+]
+
+MONEY_CLASSIFIERS = {
+    "tuition_fee": ["tuition", "tuition fee", "programme fee", "program fee", "annual fee", "international student fee", "non-local student fee", "overseas fee"],
+    "living_cost": ["living cost", "cost of living", "living expenses"],
+    "housing_cost": ["housing", "room", "accommodation", "residence"],
+    "application_fee": ["application fee", "admission fee"],
+    "scholarship_amount": ["scholarship", "grant", "bursary"],
+    "aid_income_threshold": ["family income", "household income", "income threshold"],
+    "total_cost": ["cost of attendance", "total cost"],
+}
 
 
 def extract_facts(
@@ -46,16 +76,18 @@ def extract_facts(
     for evidence in evidence_rows:
         if evidence.get("status") != "ok":
             continue
+        if evidence.get("content_quality_status") and evidence.get("content_quality_status") != "usable":
+            continue
         source = sources_by_id.get(evidence.get("source_id", ""), {})
         source_type = source.get("source_type", "")
         text = evidence.get("extracted_text", "")
 
-        facts.extend(extract_common_tags(evidence, text))
+        facts.extend(extract_common_tags(evidence, text, source_type))
 
         if source_type == "tuition_fees":
-            facts.extend(extract_money_facts(evidence, text, "tuition", "annual_fee_range"))
+            facts.extend(extract_money_facts(evidence, text))
         elif source_type == "cost_of_living":
-            facts.extend(extract_money_facts(evidence, text, "living_cost", "annual_living_cost_range"))
+            facts.extend(extract_money_facts(evidence, text, forced_classification="living_cost"))
         elif source_type == "english_requirements":
             facts.extend(extract_english_requirements(evidence, text))
         elif source_type in {"undergraduate_admissions", "graduate_admissions", "international_admissions"}:
@@ -86,6 +118,7 @@ def make_fact(
     value_number: object = "",
     value_currency: str = "",
     value_date: str = "",
+    fact_origin: str = "extracted_from_source",
     confidence_score: float = 0.7,
     review_status: str = "needs_review",
 ) -> dict[str, object]:
@@ -101,6 +134,7 @@ def make_fact(
         "value_number": value_number,
         "value_currency": value_currency,
         "value_date": value_date,
+        "fact_origin": fact_origin,
         "evidence_id": evidence.get("evidence_id", ""),
         "source_url": evidence.get("url", ""),
         "confidence_score": f"{confidence_score:.2f}",
@@ -109,28 +143,29 @@ def make_fact(
     }
 
 
-def extract_common_tags(evidence: dict[str, str], text: str) -> list[dict[str, object]]:
+def extract_common_tags(evidence: dict[str, str], text: str, source_type: str) -> list[dict[str, object]]:
     facts: list[dict[str, object]] = []
     lowered = text.lower()
-    for tag, keywords in SUBJECT_KEYWORDS.items():
-        if contains_any(lowered, keywords):
-            facts.append(make_fact(evidence, "matching", "subject_tag", tag, confidence_score=0.65))
-    for tag, keywords in STUDY_LEVEL_KEYWORDS.items():
-        if contains_any(lowered, keywords):
-            facts.append(make_fact(evidence, "matching", "study_level_tag", tag, confidence_score=0.65))
+    if source_type in {"program_catalog", "undergraduate_admissions", "graduate_admissions", "international_admissions"}:
+        for tag, keywords in SUBJECT_KEYWORDS.items():
+            if contains_any(lowered, keywords):
+                facts.append(make_fact(evidence, "matching", "subject_tag", tag, fact_origin="inferred_from_text", confidence_score=0.62))
+        for tag, keywords in STUDY_LEVEL_KEYWORDS.items():
+            if contains_any(lowered, keywords):
+                facts.append(make_fact(evidence, "matching", "study_level_tag", tag, fact_origin="inferred_from_text", confidence_score=0.62))
     for tag, keywords in VIBE_KEYWORDS.items():
         if contains_any(lowered, keywords):
-            facts.append(make_fact(evidence, "matching", "campus_vibe_tag", tag, confidence_score=0.45, review_status="generated"))
+            facts.append(make_fact(evidence, "matching", "campus_vibe_tag", tag, fact_origin="generated_by_rule", confidence_score=0.45, review_status="generated"))
     for tag, keywords in SUPPORT_KEYWORDS.items():
         if contains_any(lowered, keywords):
-            facts.append(make_fact(evidence, "matching", "support_tag", tag, confidence_score=0.6))
+            facts.append(make_fact(evidence, "matching", "support_tag", tag, fact_origin="inferred_from_text", confidence_score=0.6))
     return facts
 
 
-def extract_money_facts(evidence: dict[str, str], text: str, fact_type: str, fact_key: str) -> list[dict[str, object]]:
+def extract_money_facts(evidence: dict[str, str], text: str, forced_classification: str | None = None) -> list[dict[str, object]]:
     matches = list(MONEY_PATTERN.finditer(text))
     facts: list[dict[str, object]] = []
-    for match in matches[:12]:
+    for match in matches[:40]:
         currency = normalize_currency(match.group("currency"))
         amount = parse_amount(match.group("amount"))
         amount2 = parse_amount(match.group("amount2") or "")
@@ -140,16 +175,21 @@ def extract_money_facts(evidence: dict[str, str], text: str, fact_type: str, fac
         min_value = min(values)
         max_value = max(values)
         raw_text = match.group(0)
+        context = context_window(text, match.start(), match.end())
+        classification = forced_classification or classify_money_context(context)
+        if classification == "reject":
+            continue
+        fact_type = "tuition" if classification == "tuition_fee" else classification
         facts.append(
             make_fact(
                 evidence,
                 fact_type,
-                fact_key,
+                classification,
                 value_text=raw_text,
-                value_json={"min": min_value, "max": max_value, "currency": currency},
+                value_json={"min": min_value, "max": max_value, "currency": currency, "classification": classification, "context": context[:240]},
                 value_number=min_value,
                 value_currency=currency,
-                confidence_score=0.62,
+                confidence_score=0.74 if classification == "tuition_fee" else 0.55,
             )
         )
     return facts
@@ -160,16 +200,21 @@ def extract_english_requirements(evidence: dict[str, str], text: str) -> list[di
     for label, pattern in [("IELTS", IELTS_PATTERN), ("TOEFL", TOEFL_PATTERN), ("PTE", PTE_PATTERN)]:
         match = pattern.search(text)
         if match:
-            score = match.group("score")
+            score = float(match.group("score"))
+            validated = validate_english_score(label, score)
+            if validated == "reject":
+                continue
+            fact_key = label if validated == "overall" else f"{label}_subscore"
             facts.append(
                 make_fact(
                     evidence,
                     "english_requirement",
-                    label,
-                    value_text=f"{label} {score}",
-                    value_json={"test": label, "overall": score},
+                    fact_key,
+                    value_text=f"{label} {match.group('score')}",
+                    value_json={"test": label, "overall": score if validated == "overall" else None, "subscore_min": score if validated == "subscore" else None},
                     value_number=score,
-                    confidence_score=0.72,
+                    confidence_score=0.72 if validated == "overall" else 0.48,
+                    review_status="needs_review" if validated == "subscore" else "needs_review",
                 )
             )
     summary = english_requirement_summary(text)
@@ -195,9 +240,18 @@ def extract_application_facts(evidence: dict[str, str], text: str) -> list[dict[
             break
     if "rolling admission" in lowered or "rolling admissions" in lowered:
         facts.append(make_fact(evidence, "application", "rolling_admission", "true", confidence_score=0.75))
-    for match in DEADLINE_PATTERN.finditer(text):
-        facts.append(make_fact(evidence, "application", "deadline_summary", clean_sentence(match.group(1)), confidence_score=0.55))
-        break
+    for candidate in deadline_candidates(text)[:4]:
+        facts.append(
+            make_fact(
+                evidence,
+                "application",
+                "application_deadline_candidate",
+                value_text=candidate["text"],
+                value_json=candidate,
+                value_date=candidate.get("parsed_date", ""),
+                confidence_score=candidate["confidence"],
+            )
+        )
     return facts
 
 
@@ -297,6 +351,71 @@ def infer_first_tag(text: str, taxonomy: dict[str, list[str]]) -> str:
     for tag, keywords in taxonomy.items():
         if contains_any(lowered, keywords):
             return tag
+    return ""
+
+
+def context_window(text: str, start: int, end: int, radius: int = 140) -> str:
+    return clean_sentence(text[max(0, start - radius) : min(len(text), end + radius)])
+
+
+def classify_money_context(context: str) -> str:
+    lowered = context.lower()
+    if any(keyword in lowered for keyword in MONEY_REJECT_KEYWORDS):
+        for label, keywords in MONEY_CLASSIFIERS.items():
+            if label != "tuition_fee" and any(keyword in lowered for keyword in keywords):
+                return label
+        return "reject"
+    for label, keywords in MONEY_CLASSIFIERS.items():
+        if any(keyword in lowered for keyword in keywords):
+            return label
+    return "reject"
+
+
+def validate_english_score(label: str, score: float) -> str:
+    if label == "IELTS":
+        return "overall" if 4.0 <= score <= 9.0 else "reject"
+    if label == "TOEFL":
+        if 40 <= score <= 120:
+            return "overall"
+        if 0 <= score <= 30:
+            return "subscore"
+        return "reject"
+    if label == "PTE":
+        return "overall" if 30 <= score <= 90 else "reject"
+    return "reject"
+
+
+def deadline_candidates(text: str) -> list[dict[str, object]]:
+    candidates: list[dict[str, object]] = []
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    for sentence in sentences:
+        cleaned = clean_sentence(sentence)
+        if "deadline" not in cleaned.lower() and "apply by" not in cleaned.lower():
+            continue
+        date_match = DATE_PATTERN.search(cleaned)
+        if not date_match:
+            continue
+        candidates.append(
+            {
+                "date_text": date_match.group(0),
+                "parsed_date": "",
+                "round_name": infer_round_name(cleaned),
+                "degree_level": infer_first_tag(cleaned, STUDY_LEVEL_KEYWORDS),
+                "text": cleaned[:500],
+                "confidence": 0.72 if infer_round_name(cleaned) else 0.62,
+            }
+        )
+    return candidates
+
+
+def infer_round_name(text: str) -> str:
+    lowered = text.lower()
+    if "early" in lowered:
+        return "early"
+    if "regular" in lowered or "main round" in lowered:
+        return "regular"
+    if "late" in lowered:
+        return "late"
     return ""
 
 

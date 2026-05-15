@@ -48,7 +48,7 @@ class ProfileTests(unittest.TestCase):
             {
                 "university_id": "demo",
                 "fact_type": "tuition",
-                "fact_key": "annual_fee_range",
+                "fact_key": "tuition_fee",
                 "value_text": "SGD 30000 to SGD 40000",
                 "value_json": '{"currency":"SGD","max":40000,"min":30000}',
                 "evidence_id": "ev_2",
@@ -56,7 +56,7 @@ class ProfileTests(unittest.TestCase):
             {
                 "university_id": "demo",
                 "fact_type": "living_cost",
-                "fact_key": "annual_living_cost_range",
+                "fact_key": "living_cost",
                 "value_text": "SGD 15000 to SGD 20000",
                 "value_json": '{"currency":"SGD","max":20000,"min":15000}',
                 "evidence_id": "ev_3",
@@ -80,9 +80,9 @@ class ProfileTests(unittest.TestCase):
             {
                 "university_id": "demo",
                 "fact_type": "application",
-                "fact_key": "deadline_summary",
+                "fact_key": "application_deadline_candidate",
                 "value_text": "Deadline is 15 January",
-                "value_json": "",
+                "value_json": '{"date_text":"15 January 2026","round_name":"regular"}',
                 "evidence_id": "ev_6",
             },
             {
@@ -104,6 +104,7 @@ class ProfileTests(unittest.TestCase):
         self.assertEqual(left_qa, right_qa)
         self.assertEqual(left_profiles[0]["local_name"], "示例大学")
         self.assertEqual(left_profiles[0]["total_cost_usd_min"], 33300)
+        self.assertEqual(left_profiles[0]["import_status"], "ready_for_import")
 
     def test_build_profiles_uses_country_living_cost_fallback(self) -> None:
         seed = [
@@ -129,6 +130,43 @@ class ProfileTests(unittest.TestCase):
 
         self.assertEqual(profiles[0]["living_cost_usd_min"], 12000)
         self.assertEqual(profiles[0]["living_cost_usd_max"], 18000)
+
+    def test_product_summaries_are_cleaned_before_export(self) -> None:
+        seed = [
+            {
+                "university_id": "demo",
+                "name": "Demo University",
+                "country": "United States",
+                "city": "Boston",
+                "website_url": "https://demo.edu",
+                "type": "private",
+            }
+        ]
+        facts = [
+            {"university_id": "demo", "fact_type": "matching", "fact_key": "subject_tag", "value_text": "engineering"},
+            {"university_id": "demo", "fact_type": "matching", "fact_key": "study_level_tag", "value_text": "bachelor"},
+            {
+                "university_id": "demo",
+                "fact_type": "application",
+                "fact_key": "application_deadline_candidate",
+                "value_text": "Helpful Links Search Contact Us Application deadline is Nov 1",
+                "value_json": '{"date_text":"Nov 1","round_name":"early"}',
+            },
+            {
+                "university_id": "demo",
+                "fact_type": "english_requirement",
+                "fact_key": "summary",
+                "value_text": "Skip navigation English language requirements IELTS 7.0 and TOEFL 100",
+            },
+            {"university_id": "demo", "fact_type": "english_requirement", "fact_key": "IELTS", "value_text": "IELTS 7.0"},
+        ]
+
+        with tempfile.TemporaryDirectory() as tmp:
+            profiles, _qa = build_profiles(seed, [], facts, [], Path(tmp))
+
+        self.assertEqual(profiles[0]["deadline_summary"], "Early: Nov 1")
+        self.assertEqual(profiles[0]["english_requirement_summary"], "IELTS 7.0")
+        self.assertNotIn("Skip navigation", profiles[0]["requirement_summary"])
 
 
 if __name__ == "__main__":

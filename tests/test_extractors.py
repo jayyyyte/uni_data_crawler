@@ -22,6 +22,12 @@ class ExtractorTests(unittest.TestCase):
                 "source_type": "english_requirements",
                 "url": "https://example.edu/english",
             },
+            {
+                "source_id": "src_3",
+                "university_id": "demo",
+                "source_type": "program_catalog",
+                "url": "https://example.edu/programs",
+            },
         ]
         evidence = [
             {
@@ -39,6 +45,14 @@ class ExtractorTests(unittest.TestCase):
                 "url": "https://example.edu/english",
                 "status": "ok",
                 "extracted_text": "English requirements include IELTS 7.0 or TOEFL 100.",
+            },
+            {
+                "evidence_id": "ev_3",
+                "source_id": "src_3",
+                "university_id": "demo",
+                "url": "https://example.edu/programs",
+                "status": "ok",
+                "extracted_text": "Bachelor programs include Engineering and Computer Science.",
             },
         ]
 
