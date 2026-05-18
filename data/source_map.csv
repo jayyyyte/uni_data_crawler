@@ -49,3 +49,103 @@ sydney,University of Sydney,Australia,official_home,https://www.sydney.edu.au,1,
 anu,Australian National University,Australia,official_home,https://www.anu.edu.au,1,en,static,starter official homepage
 unsw,UNSW Sydney,Australia,official_home,https://www.unsw.edu.au,1,en,static,starter official homepage
 auckland,University of Auckland,New Zealand,official_home,https://www.auckland.ac.nz/en.html,1,en,static,starter official homepage
+duke,Duke University,United States,official_home,https://duke.edu,1,en,static,starter official homepage
+jhu,Johns Hopkins University,United States,official_home,https://jhu.edu,1,en,static,starter official homepage
+northwestern,Northwestern University,United States,official_home,https://northwestern.edu,1,en,static,starter official homepage
+brown,Brown University,United States,official_home,https://brown.edu,1,en,static,starter official homepage
+dartmouth,Dartmouth College,United States,official_home,https://dartmouth.edu,1,en,static,starter official homepage
+vanderbilt,Vanderbilt University,United States,official_home,https://vanderbilt.edu,1,en,static,starter official homepage
+rice,Rice University,United States,official_home,https://rice.edu,1,en,static,starter official homepage
+wustl,Washington University in St. Louis,United States,official_home,https://wustl.edu,1,en,static,starter official homepage
+notredame,University of Notre Dame,United States,official_home,https://nd.edu,1,en,static,starter official homepage
+georgetown,Georgetown University,United States,official_home,https://georgetown.edu,1,en,static,starter official homepage
+emory,Emory University,United States,official_home,https://emory.edu,1,en,static,starter official homepage
+umich,University of Michigan,United States,official_home,https://umich.edu,1,en,static,starter official homepage
+uva,University of Virginia,United States,official_home,https://virginia.edu,1,en,static,starter official homepage
+unc,University of North Carolina at Chapel Hill,United States,official_home,https://unc.edu,1,en,static,starter official homepage
+nyu,New York University,United States,official_home,https://nyu.edu,1,en,static,starter official homepage
+utaustin,University of Texas at Austin,United States,official_home,https://utexas.edu,1,en,static,starter official homepage
+uwmadison,University of Wisconsin-Madison,United States,official_home,https://wisc.edu,1,en,static,starter official homepage
+uiuc,University of Illinois Urbana-Champaign,United States,official_home,https://illinois.edu,1,en,static,starter official homepage
+ucsd,University of California San Diego,United States,official_home,https://ucsd.edu,1,en,static,starter official homepage
+ucsb,University of California Santa Barbara,United States,official_home,https://ucsb.edu,1,en,static,starter official homepage
+ucdavis,University of California Davis,United States,official_home,https://ucdavis.edu,1,en,static,starter official homepage
+uci,University of California Irvine,United States,official_home,https://uci.edu,1,en,static,starter official homepage
+uf,University of Florida,United States,official_home,https://ufl.edu,1,en,static,starter official homepage
+gatech,Georgia Institute of Technology,United States,official_home,https://gatech.edu,1,en,static,starter official homepage
+purdue,Purdue University,United States,official_home,https://purdue.edu,1,en,static,starter official homepage
+bu,Boston University,United States,official_home,https://bu.edu,1,en,static,starter official homepage
+tufts,Tufts University,United States,official_home,https://tufts.edu,1,en,static,starter official homepage
+bristol,University of Bristol,United Kingdom,official_home,https://bristol.ac.uk,1,en,static,starter official homepage
+warwick,University of Warwick,United Kingdom,official_home,https://warwick.ac.uk,1,en,static,starter official homepage
+glasgow,University of Glasgow,United Kingdom,official_home,https://gla.ac.uk,1,en,static,starter official homepage
+durham,Durham University,United Kingdom,official_home,https://durham.ac.uk,1,en,static,starter official homepage
+sheffield,University of Sheffield,United Kingdom,official_home,https://sheffield.ac.uk,1,en,static,starter official homepage
+birmingham,University of Birmingham,United Kingdom,official_home,https://birmingham.ac.uk,1,en,static,starter official homepage
+leeds,University of Leeds,United Kingdom,official_home,https://leeds.ac.uk,1,en,static,starter official homepage
+nottingham,University of Nottingham,United Kingdom,official_home,https://nottingham.ac.uk,1,en,static,starter official homepage
+southampton,University of Southampton,United Kingdom,official_home,https://southampton.ac.uk,1,en,static,starter official homepage
+standrews,University of St Andrews,United Kingdom,official_home,https://st-andrews.ac.uk,1,en,static,starter official homepage
+mcmaster,McMaster University,Canada,official_home,https://mcmaster.ca,1,en,static,starter official homepage
+umontreal,University of Montreal,Canada,official_home,https://umontreal.ca,1,en,static,starter official homepage
+ualberta,University of Alberta,Canada,official_home,https://ualberta.ca,1,en,static,starter official homepage
+waterloo,University of Waterloo,Canada,official_home,https://uwaterloo.ca,1,en,static,starter official homepage
+western,Western University,Canada,official_home,https://uwo.ca,1,en,static,starter official homepage
+ucalgary,University of Calgary,Canada,official_home,https://ucalgary.ca,1,en,static,starter official homepage
+lmumunich,LMU Munich,Germany,official_home,https://lmu.de,1,en,static,starter official homepage
+humboldt,Humboldt University of Berlin,Germany,official_home,https://hu-berlin.de,1,en,static,starter official homepage
+ghent,Ghent University,Belgium,official_home,https://ugent.be,1,en,static,starter official homepage
+wageningen,Wageningen University & Research,Netherlands,official_home,https://wur.nl,1,en,static,starter official homepage
+leiden,Leiden University,Netherlands,official_home,https://universiteitleiden.nl,1,en,static,starter official homepage
+utrecht,Utrecht University,Netherlands,official_home,https://uu.nl,1,en,static,starter official homepage
+copenhagen,University of Copenhagen,Denmark,official_home,https://ku.dk,1,en,static,starter official homepage
+aarhus,Aarhus University,Denmark,official_home,https://au.dk,1,en,static,starter official homepage
+karolinska,Karolinska Institute,Sweden,official_home,https://ki.se,1,en,static,starter official homepage
+uppsala,Uppsala University,Sweden,official_home,https://uu.se,1,en,static,starter official homepage
+lund,Lund University,Sweden,official_home,https://lunduniversity.lu.se,1,en,static,starter official homepage
+kth,KTH Royal Institute of Technology,Sweden,official_home,https://kth.se,1,en,static,starter official homepage
+helsinki,University of Helsinki,Finland,official_home,https://helsinki.fi,1,en,static,starter official homepage
+oslo,University of Oslo,Norway,official_home,https://uio.no,1,en,static,starter official homepage
+uzh,University of Zurich,Switzerland,official_home,https://uzh.ch,1,en,static,starter official homepage
+geneva,University of Geneva,Switzerland,official_home,https://unige.ch,1,en,static,starter official homepage
+psl,Paris Sciences et Lettres University,France,official_home,https://psl.eu,1,en,static,starter official homepage
+polytechnique,École Polytechnique,France,official_home,https://polytechnique.edu,1,en,static,starter official homepage
+fudan,Fudan University,China,official_home,https://fudan.edu.cn,1,en,static,starter official homepage
+sjtu,Shanghai Jiao Tong University,China,official_home,https://sjtu.edu.cn,1,en,static,starter official homepage
+zhejiang,Zhejiang University,China,official_home,https://zju.edu.cn,1,en,static,starter official homepage
+ustc,University of Science and Technology of China,China,official_home,https://ustc.edu.cn,1,en,static,starter official homepage
+nanjing,Nanjing University,China,official_home,https://nju.edu.cn,1,en,static,starter official homepage
+wuhan,Wuhan University,China,official_home,https://whu.edu.cn,1,en,static,starter official homepage
+sysu,Sun Yat-sen University,China,official_home,https://sysu.edu.cn,1,en,static,starter official homepage
+cityu,City University of Hong Kong,Hong Kong,official_home,https://cityu.edu.hk,1,en,static,starter official homepage
+polyu,Hong Kong Polytechnic University,Hong Kong,official_home,https://polyu.edu.hk,1,en,static,starter official homepage
+tohoku,Tohoku University,Japan,official_home,https://tohoku.ac.jp,1,en,static,starter official homepage
+osaka,Osaka University,Japan,official_home,https://osaka-u.ac.jp,1,en,static,starter official homepage
+nagoya,Nagoya University,Japan,official_home,https://nagoya-u.ac.jp,1,en,static,starter official homepage
+kyushu,Kyushu University,Japan,official_home,https://kyushu-u.ac.jp,1,en,static,starter official homepage
+hokkaido,Hokkaido University,Japan,official_home,https://hokudai.ac.jp,1,en,static,starter official homepage
+yonsei,Yonsei University,South Korea,official_home,https://yonsei.ac.kr,1,en,static,starter official homepage
+korea,Korea University,South Korea,official_home,https://korea.ac.kr,1,en,static,starter official homepage
+skku,Sungkyunkwan University,South Korea,official_home,https://skku.edu,1,en,static,starter official homepage
+hanyang,Hanyang University,South Korea,official_home,https://hanyang.ac.kr,1,en,static,starter official homepage
+ntu_tw,National Taiwan University,Taiwan,official_home,https://ntu.edu.tw,1,en,static,starter official homepage
+uq,University of Queensland,Australia,official_home,https://uq.edu.au,1,en,static,starter official homepage
+monash,Monash University,Australia,official_home,https://monash.edu,1,en,static,starter official homepage
+uwa,University of Western Australia,Australia,official_home,https://uwa.edu.au,1,en,static,starter official homepage
+adelaide,University of Adelaide,Australia,official_home,https://adelaide.edu.au,1,en,static,starter official homepage
+usc,University of Southern California,United States,official_home,https://usc.edu,1,en,static,starter official homepage
+rutgers,Rutgers University,United States,official_home,https://rutgers.edu,1,en,static,starter official homepage
+psu,Penn State University,United States,official_home,https://psu.edu,1,en,static,starter official homepage
+osu,Ohio State University,United States,official_home,https://osu.edu,1,en,static,starter official homepage
+ucsc,University of California Santa Cruz,United States,official_home,https://ucsc.edu,1,en,static,starter official homepage
+umd,University of Maryland College Park,United States,official_home,https://umd.edu,1,en,static,starter official homepage
+bc,Boston College,United States,official_home,https://bc.edu,1,en,static,starter official homepage
+bath,University of Bath,United Kingdom,official_home,https://bath.ac.uk,1,en,static,starter official homepage
+york,University of York,United Kingdom,official_home,https://york.ac.uk,1,en,static,starter official homepage
+tcd,Trinity College Dublin,Ireland,official_home,https://tcd.ie,1,en,static,starter official homepage
+ucd,University College Dublin,Ireland,official_home,https://ucd.ie,1,en,static,starter official homepage
+waseda,Waseda University,Japan,official_home,https://waseda.jp,1,en,static,starter official homepage
+keio,Keio University,Japan,official_home,https://keio.ac.jp,1,en,static,starter official homepage
+uwashington,University of Washington,United States,official_home,https://www.washington.edu,1,en,static,starter official homepage
+postech,Pohang University of Science and Technology,South Korea,official_home,https://postech.ac.kr,1,en,static,starter official homepage
+tamu,Texas A&M University,United States,official_home,https://www.tamu.edu,1,en,static,starter official homepage

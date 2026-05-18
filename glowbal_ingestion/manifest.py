@@ -14,6 +14,7 @@ def write_run_manifest(
     run_id: str,
     input_files: dict[str, str],
     output_files: dict[str, str],
+    metadata: dict[str, object] | None = None,
 ) -> dict[str, object]:
     output_path = Path(out_dir)
     manifest = {
@@ -26,6 +27,8 @@ def write_run_manifest(
         "row_counts": {name: count_csv_rows(path) for name, path in output_files.items() if path.endswith(".csv")},
         "quality_gate_summary": read_quality_gate(output_path / "pilot_quality_gate.csv"),
     }
+    if metadata:
+        manifest["metadata"] = metadata
     with (output_path / "run_manifest.json").open("w", encoding="utf-8") as handle:
         json.dump(manifest, handle, ensure_ascii=False, indent=2, sort_keys=True)
         handle.write("\n")

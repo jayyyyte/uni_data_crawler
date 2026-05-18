@@ -103,9 +103,19 @@ Important fields:
 - `value_date`
 - `evidence_id`
 - `source_url`
+- `supporting_text`: exact source quote for LLM-extracted facts.
 - `confidence_score`
 - `review_status`
 - `extracted_at`
+
+`fact_origin` values:
+
+- `extracted_from_source`: deterministic/rule-based extraction from evidence.
+- `llm_extracted_from_source`: OpenAI structured extraction from evidence; must include `supporting_text`.
+- `inferred_from_text`: inferred tag from source text.
+- `generated_by_rule`: advisory/generated tag from rules.
+- `generated_by_llm`: reserved for advisory copy, not factual tuition/deadline/requirement data.
+- `manual`: manually curated fact.
 
 ## Product Outputs
 

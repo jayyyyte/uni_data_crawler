@@ -123,11 +123,13 @@ create table if not exists ingestion.university_facts (
       'inferred_from_text',
       'generated_by_rule',
       'generated_by_llm',
+      'llm_extracted_from_source',
       'manual'
     )
   ),
   evidence_id uuid references ingestion.university_evidence(id) on delete set null,
   source_url text,
+  supporting_text text,
   confidence_score numeric check (confidence_score is null or (confidence_score >= 0 and confidence_score <= 1)),
   extraction_status text default 'extracted' check (extraction_status in ('not_started', 'extracted', 'skipped', 'failed')),
   review_status text default 'needs_review' check (review_status in ('needs_review', 'approved', 'rejected', 'generated')),

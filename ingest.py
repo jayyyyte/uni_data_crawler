@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -8,9 +9,11 @@ from glowbal_ingestion.crawler import crawl_sources
 from glowbal_ingestion.csv_io import read_csv
 from glowbal_ingestion.discovery import build_candidate_source_map, suggest_sources
 from glowbal_ingestion.extractors import extract_facts
+from glowbal_ingestion.llm_extractors import extract_facts_with_llm
 from glowbal_ingestion.manifest import default_run_id, write_run_manifest
 from glowbal_ingestion.profiles import build_profiles
 from glowbal_ingestion.quality import classify_evidence_rows
+from glowbal_ingestion.source_search import promote_search_sources, search_source_candidates
 from glowbal_ingestion.source_map_tools import apply_source_repairs, build_retry_source_map, merge_crawl_outputs, normalize_source_map
 from glowbal_ingestion.validation import validate_seed_rows, validate_source_rows
 
@@ -94,6 +97,25 @@ def main(argv: list[str] | None = None) -> int:
     classify_parser.add_argument("--sources", required=True)
     classify_parser.add_argument("--evidence", required=True)
     classify_parser.add_argument("--out", required=True)
+
+    search_parser = subparsers.add_parser("search-sources", help="Use Serper to find source URL candidates")
+    search_parser.add_argument("--seed", required=True)
+    search_parser.add_argument("--existing-sources", required=True)
+    search_parser.add_argument("--out", required=True)
+    search_parser.add_argument("--source-types", required=True)
+    search_parser.add_argument("--per-type-limit", type=int, default=3)
+
+    promote_parser = subparsers.add_parser("promote-search-sources", help="Promote approved Serper source candidates into a source map")
+    promote_parser.add_argument("--seed", required=True)
+    promote_parser.add_argument("--base-sources", required=True)
+    promote_parser.add_argument("--candidates", required=True)
+    promote_parser.add_argument("--out", required=True)
+
+    llm_parser = subparsers.add_parser("extract-facts-llm", help="Extract evidence-backed facts using OpenAI structured output")
+    llm_parser.add_argument("--sources", required=True)
+    llm_parser.add_argument("--evidence", required=True)
+    llm_parser.add_argument("--out-dir", required=True)
+    llm_parser.add_argument("--run-id", default="")
 
     args = parser.parse_args(argv)
 
@@ -201,6 +223,35 @@ def main(argv: list[str] | None = None) -> int:
         write_csv(args.out, rows, EVIDENCE_COLUMNS)
         print(f"Wrote {len(rows)} classified evidence rows to {args.out}")
         return 0
+    if args.command == "search-sources":
+        source_types = {part.strip() for part in args.source_types.split(",") if part.strip()}
+        rows = search_source_candidates(
+            read_csv(args.seed),
+            read_csv(args.existing_sources),
+            args.out,
+            source_types,
+            per_type_limit=args.per_type_limit,
+        )
+        print(f"Wrote {len(rows)} Serper source candidates to {args.out}")
+        return 0
+    if args.command == "promote-search-sources":
+        rows = promote_search_sources(
+            read_csv(args.seed),
+            read_csv(args.base_sources),
+            read_csv(args.candidates),
+            args.out,
+        )
+        print(f"Wrote {len(rows)} source rows to {args.out}")
+        return 0
+    if args.command == "extract-facts-llm":
+        facts, report_rows = extract_facts_with_llm(
+            read_csv(args.sources),
+            read_csv(args.evidence),
+            args.out_dir,
+            run_id=args.run_id,
+        )
+        print(f"Wrote {len(facts)} LLM facts and {len(report_rows)} report rows to {args.out_dir}")
+        return 0
 
     parser.error(f"Unsupported command: {args.command}")
     return 2
@@ -251,6 +302,8 @@ def write_profile_manifest(
             "facts": facts,
             "facts_extracted": str(output_dir / "facts_extracted.csv"),
             "facts_generated": str(output_dir / "facts_generated.csv"),
+            "facts_llm": str(output_dir / "facts_llm.csv"),
+            "llm_extraction_report": str(output_dir / "llm_extraction_report.csv"),
             "programs": str(output_dir / "programs.csv"),
             "product_profiles": str(output_dir / "university_product_profiles.csv"),
             "import": str(output_dir / "universities_import.csv"),
@@ -261,6 +314,7 @@ def write_profile_manifest(
             "field_gap_report": str(output_dir / "field_gap_report.csv"),
             "quality_gate": str(output_dir / "pilot_quality_gate.csv"),
         },
+        metadata=read_optional_json(output_dir / "llm_metadata.json"),
     )
 
 
@@ -288,6 +342,8 @@ def write_pipeline_manifest(
             "facts": str(output_dir / "facts.csv"),
             "facts_extracted": str(output_dir / "facts_extracted.csv"),
             "facts_generated": str(output_dir / "facts_generated.csv"),
+            "facts_llm": str(output_dir / "facts_llm.csv"),
+            "llm_extraction_report": str(output_dir / "llm_extraction_report.csv"),
             "programs": str(output_dir / "programs.csv"),
             "product_profiles": str(output_dir / "university_product_profiles.csv"),
             "import": str(output_dir / "universities_import.csv"),
@@ -298,6 +354,7 @@ def write_pipeline_manifest(
             "field_gap_report": str(output_dir / "field_gap_report.csv"),
             "quality_gate": str(output_dir / "pilot_quality_gate.csv"),
         },
+        metadata=read_optional_json(output_dir / "llm_metadata.json"),
     )
 
 
@@ -328,6 +385,16 @@ def command_discover(seed_path: str, out_path: str) -> int:
     write_csv(out_path, rows, SOURCE_COLUMNS)
     print(f"Wrote starter source map to {out_path}")
     return 0
+
+
+def read_optional_json(path: str | Path) -> dict[str, object]:
+    json_path = Path(path)
+    if not json_path.exists():
+        return {}
+    try:
+        return json.loads(json_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
 
 
 if __name__ == "__main__":

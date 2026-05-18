@@ -49,3 +49,103 @@ sydney,University of Sydney,,Australia,Sydney,New South Wales,Oceania,https://ww
 anu,Australian National University,,Australia,Canberra,Australian Capital Territory,Oceania,https://www.anu.edu.au,public,pilot representative
 unsw,UNSW Sydney,,Australia,Sydney,New South Wales,Oceania,https://www.unsw.edu.au,public,pilot representative
 auckland,University of Auckland,Waipapa Taumata Rau,New Zealand,Auckland,Auckland,Oceania,https://www.auckland.ac.nz/en.html,public,pilot representative
+duke,Duke University,,United States,Durham,North Carolina,North America,https://duke.edu,private,added
+jhu,Johns Hopkins University,,United States,Baltimore,Maryland,North America,https://jhu.edu,private,added
+northwestern,Northwestern University,,United States,Evanston,Illinois,North America,https://northwestern.edu,private,added
+brown,Brown University,,United States,Providence,Rhode Island,North America,https://brown.edu,private,added
+dartmouth,Dartmouth College,,United States,Hanover,New Hampshire,North America,https://dartmouth.edu,private,added
+vanderbilt,Vanderbilt University,,United States,Nashville,Tennessee,North America,https://vanderbilt.edu,private,added
+rice,Rice University,,United States,Houston,Texas,North America,https://rice.edu,private,added
+wustl,Washington University in St. Louis,,United States,St. Louis,Missouri,North America,https://wustl.edu,private,added
+notredame,University of Notre Dame,,United States,Notre Dame,Indiana,North America,https://nd.edu,private,added
+georgetown,Georgetown University,,United States,Washington,District of Columbia,North America,https://georgetown.edu,private,added
+emory,Emory University,,United States,Atlanta,Georgia,North America,https://emory.edu,private,added
+umich,University of Michigan,,United States,Ann Arbor,Michigan,North America,https://umich.edu,public,added
+uva,University of Virginia,,United States,Charlottesville,Virginia,North America,https://virginia.edu,public,added
+unc,University of North Carolina at Chapel Hill,,United States,Chapel Hill,North Carolina,North America,https://unc.edu,public,added
+nyu,New York University,,United States,New York,New York,North America,https://nyu.edu,private,added
+utaustin,University of Texas at Austin,,United States,Austin,Texas,North America,https://utexas.edu,public,added
+uwmadison,University of Wisconsin-Madison,,United States,Madison,Wisconsin,North America,https://wisc.edu,public,added
+uiuc,University of Illinois Urbana-Champaign,,United States,Urbana,Illinois,North America,https://illinois.edu,public,added
+ucsd,University of California San Diego,,United States,San Diego,California,North America,https://ucsd.edu,public,added
+ucsb,University of California Santa Barbara,,United States,Santa Barbara,California,North America,https://ucsb.edu,public,added
+ucdavis,University of California Davis,,United States,Davis,California,North America,https://ucdavis.edu,public,added
+uci,University of California Irvine,,United States,Irvine,California,North America,https://uci.edu,public,added
+uf,University of Florida,,United States,Gainesville,Florida,North America,https://ufl.edu,public,added
+gatech,Georgia Institute of Technology,,United States,Atlanta,Georgia,North America,https://gatech.edu,public,added
+purdue,Purdue University,,United States,West Lafayette,Indiana,North America,https://purdue.edu,public,added
+bu,Boston University,,United States,Boston,Massachusetts,North America,https://bu.edu,private,added
+tufts,Tufts University,,United States,Medford,Massachusetts,North America,https://tufts.edu,private,added
+bristol,University of Bristol,,United Kingdom,Bristol,England,Europe,https://bristol.ac.uk,public,added
+warwick,University of Warwick,,United Kingdom,Coventry,England,Europe,https://warwick.ac.uk,public,added
+glasgow,University of Glasgow,,United Kingdom,Glasgow,Scotland,Europe,https://gla.ac.uk,public,added
+durham,Durham University,,United Kingdom,Durham,England,Europe,https://durham.ac.uk,public,added
+sheffield,University of Sheffield,,United Kingdom,Sheffield,England,Europe,https://sheffield.ac.uk,public,added
+birmingham,University of Birmingham,,United Kingdom,Birmingham,England,Europe,https://birmingham.ac.uk,public,added
+leeds,University of Leeds,,United Kingdom,Leeds,England,Europe,https://leeds.ac.uk,public,added
+nottingham,University of Nottingham,,United Kingdom,Nottingham,England,Europe,https://nottingham.ac.uk,public,added
+southampton,University of Southampton,,United Kingdom,Southampton,England,Europe,https://southampton.ac.uk,public,added
+standrews,University of St Andrews,,United Kingdom,St Andrews,Scotland,Europe,https://st-andrews.ac.uk,public,added
+mcmaster,McMaster University,,Canada,Hamilton,Ontario,North America,https://mcmaster.ca,public,added
+umontreal,University of Montreal,Université de Montréal,Canada,Montreal,Quebec,North America,https://umontreal.ca,public,added
+ualberta,University of Alberta,,Canada,Edmonton,Alberta,North America,https://ualberta.ca,public,added
+waterloo,University of Waterloo,,Canada,Waterloo,Ontario,North America,https://uwaterloo.ca,public,added
+western,Western University,,Canada,London,Ontario,North America,https://uwo.ca,public,added
+ucalgary,University of Calgary,,Canada,Calgary,Alberta,North America,https://ucalgary.ca,public,added
+lmumunich,LMU Munich,Ludwig-Maximilians-Universität München,Germany,Munich,Bavaria,Europe,https://lmu.de,public,added
+humboldt,Humboldt University of Berlin,Humboldt-Universität zu Berlin,Germany,Berlin,Berlin,Europe,https://hu-berlin.de,public,added
+ghent,Ghent University,Universiteit Gent,Belgium,Ghent,Flanders,Europe,https://ugent.be,public,added
+wageningen,Wageningen University & Research,Wageningen University & Research,Netherlands,Wageningen,Gelderland,Europe,https://wur.nl,public,added
+leiden,Leiden University,Universiteit Leiden,Netherlands,Leiden,South Holland,Europe,https://universiteitleiden.nl,public,added
+utrecht,Utrecht University,Universiteit Utrecht,Netherlands,Utrecht,Utrecht,Europe,https://uu.nl,public,added
+copenhagen,University of Copenhagen,Københavns Universitet,Denmark,Copenhagen,Capital Region,Europe,https://ku.dk,public,added
+aarhus,Aarhus University,Aarhus Universitet,Denmark,Aarhus,Central Denmark Region,Europe,https://au.dk,public,added
+karolinska,Karolinska Institute,Karolinska Institutet,Sweden,Stockholm,Stockholm,Europe,https://ki.se,public,added
+uppsala,Uppsala University,Uppsala universitet,Sweden,Uppsala,Uppsala,Europe,https://uu.se,public,added
+lund,Lund University,Lunds universitet,Sweden,Lund,Skåne,Europe,https://lunduniversity.lu.se,public,added
+kth,KTH Royal Institute of Technology,Kungliga Tekniska högskolan,Sweden,Stockholm,Stockholm,Europe,https://kth.se,public,added
+helsinki,University of Helsinki,Helsingin yliopisto,Finland,Helsinki,Uusimaa,Europe,https://helsinki.fi,public,added
+oslo,University of Oslo,Universitetet i Oslo,Norway,Oslo,Oslo,Europe,https://uio.no,public,added
+uzh,University of Zurich,Universität Zürich,Switzerland,Zurich,Zurich,Europe,https://uzh.ch,public,added
+geneva,University of Geneva,Université de Genève,Switzerland,Geneva,Geneva,Europe,https://unige.ch,public,added
+psl,Paris Sciences et Lettres University,Université PSL,France,Paris,Île-de-France,Europe,https://psl.eu,public,added
+polytechnique,École Polytechnique,École Polytechnique,France,Palaiseau,Île-de-France,Europe,https://polytechnique.edu,public,added
+fudan,Fudan University,复旦大学,China,Shanghai,Shanghai,Asia,https://fudan.edu.cn,public,added
+sjtu,Shanghai Jiao Tong University,上海交通大学,China,Shanghai,Shanghai,Asia,https://sjtu.edu.cn,public,added
+zhejiang,Zhejiang University,浙江大学,China,Hangzhou,Zhejiang,Asia,https://zju.edu.cn,public,added
+ustc,University of Science and Technology of China,中国科学技术大学,China,Hefei,Anhui,Asia,https://ustc.edu.cn,public,added
+nanjing,Nanjing University,南京大学,China,Nanjing,Jiangsu,Asia,https://nju.edu.cn,public,added
+wuhan,Wuhan University,武汉大学,China,Wuhan,Hubei,Asia,https://whu.edu.cn,public,added
+sysu,Sun Yat-sen University,中山大学,China,Guangzhou,Guangdong,Asia,https://sysu.edu.cn,public,added
+cityu,City University of Hong Kong,香港城市大學,Hong Kong,Hong Kong,Hong Kong,Asia,https://cityu.edu.hk,public,added
+polyu,Hong Kong Polytechnic University,香港理工大學,Hong Kong,Hong Kong,Hong Kong,Asia,https://polyu.edu.hk,public,added
+tohoku,Tohoku University,東北大学,Japan,Sendai,Miyagi,Asia,https://tohoku.ac.jp,public,added
+osaka,Osaka University,大阪大学,Japan,Suita,Osaka,Asia,https://osaka-u.ac.jp,public,added
+nagoya,Nagoya University,名古屋大学,Japan,Nagoya,Aichi,Asia,https://nagoya-u.ac.jp,public,added
+kyushu,Kyushu University,九州大学,Japan,Fukuoka,Fukuoka,Asia,https://kyushu-u.ac.jp,public,added
+hokkaido,Hokkaido University,北海道大学,Japan,Sapporo,Hokkaido,Asia,https://hokudai.ac.jp,public,added
+yonsei,Yonsei University,연세대학교,South Korea,Seoul,Seoul,Asia,https://yonsei.ac.kr,private,added
+korea,Korea University,고려대학교,South Korea,Seoul,Seoul,Asia,https://korea.ac.kr,private,added
+skku,Sungkyunkwan University,성균관대학교,South Korea,Seoul,Seoul,Asia,https://skku.edu,private,added
+hanyang,Hanyang University,한양대학교,South Korea,Seoul,Seoul,Asia,https://hanyang.ac.kr,private,added
+ntu_tw,National Taiwan University,國立臺灣大學,Taiwan,Taipei,Taipei,Asia,https://ntu.edu.tw,public,added
+uq,University of Queensland,,Australia,Brisbane,Queensland,Oceania,https://uq.edu.au,public,added
+monash,Monash University,,Australia,Melbourne,Victoria,Oceania,https://monash.edu,public,added
+uwa,University of Western Australia,,Australia,Perth,Western Australia,Oceania,https://uwa.edu.au,public,added
+adelaide,University of Adelaide,,Australia,Adelaide,South Australia,Oceania,https://adelaide.edu.au,public,added
+usc,University of Southern California,,United States,Los Angeles,California,North America,https://usc.edu,private,added
+rutgers,Rutgers University,,United States,New Brunswick,New Jersey,North America,https://rutgers.edu,public,added
+psu,Penn State University,,United States,State College,Pennsylvania,North America,https://psu.edu,public,added
+osu,Ohio State University,,United States,Columbus,Ohio,North America,https://osu.edu,public,added
+ucsc,University of California Santa Cruz,,United States,Santa Cruz,California,North America,https://ucsc.edu,public,added
+umd,University of Maryland College Park,,United States,College Park,Maryland,North America,https://umd.edu,public,added
+bc,Boston College,,United States,Chestnut Hill,Massachusetts,North America,https://bc.edu,private,added
+bath,University of Bath,,United Kingdom,Bath,England,Europe,https://bath.ac.uk,public,added
+york,University of York,,United Kingdom,York,England,Europe,https://york.ac.uk,public,added
+tcd,Trinity College Dublin,,Ireland,Dublin,Leinster,Europe,https://tcd.ie,public,added
+ucd,University College Dublin,,Ireland,Dublin,Leinster,Europe,https://ucd.ie,public,added
+waseda,Waseda University,早稲田大学,Japan,Tokyo,Tokyo,Asia,https://waseda.jp,private,added
+keio,Keio University,慶應義塾大学,Japan,Tokyo,Tokyo,Asia,https://keio.ac.jp,private,added
+uwashington,University of Washington,,United States,Seattle,Washington,North America,https://www.washington.edu,public,added
+postech,Pohang University of Science and Technology,포항공과대학교,South Korea,Pohang,North Gyeongsang,Asia,https://postech.ac.kr,private,added
+tamu,Texas A&M University,,United States,College Station,Texas,North America,https://www.tamu.edu,public,added

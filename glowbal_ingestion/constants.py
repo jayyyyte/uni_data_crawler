@@ -81,9 +81,38 @@ FACT_COLUMNS = [
     "fact_origin",
     "evidence_id",
     "source_url",
+    "supporting_text",
     "confidence_score",
     "review_status",
     "extracted_at",
+]
+
+SEARCH_SOURCE_COLUMNS = [
+    "university_id",
+    "university_name",
+    "country",
+    "source_type",
+    "candidate_url",
+    "title",
+    "snippet",
+    "rank",
+    "confidence_score",
+    "search_query",
+    "review_status",
+    "crawl_method",
+    "notes",
+]
+
+LLM_EXTRACTION_REPORT_COLUMNS = [
+    "evidence_id",
+    "source_id",
+    "university_id",
+    "source_type",
+    "source_url",
+    "status",
+    "facts_emitted",
+    "error",
+    "model",
 ]
 
 BATCH_QA_COLUMNS = [

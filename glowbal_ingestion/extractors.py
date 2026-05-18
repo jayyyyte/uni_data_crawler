@@ -114,11 +114,11 @@ def extract_facts(
 
 
 def extracted_fact_rows(facts: list[dict[str, object]]) -> list[dict[str, object]]:
-    return [fact for fact in facts if fact.get("fact_origin") in {"extracted_from_source", "manual"}]
+    return [fact for fact in facts if fact.get("fact_origin") in {"extracted_from_source", "llm_extracted_from_source", "manual"}]
 
 
 def generated_fact_rows(facts: list[dict[str, object]]) -> list[dict[str, object]]:
-    return [fact for fact in facts if fact.get("fact_origin") not in {"extracted_from_source", "manual"}]
+    return [fact for fact in facts if fact.get("fact_origin") not in {"extracted_from_source", "llm_extracted_from_source", "manual"}]
 
 
 def make_fact(
@@ -131,6 +131,7 @@ def make_fact(
     value_currency: str = "",
     value_date: str = "",
     fact_origin: str = "extracted_from_source",
+    supporting_text: str = "",
     confidence_score: float = 0.7,
     review_status: str = "needs_review",
 ) -> dict[str, object]:
@@ -149,6 +150,7 @@ def make_fact(
         "fact_origin": fact_origin,
         "evidence_id": evidence.get("evidence_id", ""),
         "source_url": evidence.get("url", ""),
+        "supporting_text": supporting_text,
         "confidence_score": f"{confidence_score:.2f}",
         "review_status": review_status,
         "extracted_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),

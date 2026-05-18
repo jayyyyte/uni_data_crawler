@@ -2,8 +2,11 @@ from __future__ import annotations
 
 import csv
 import json
+import sys
 from pathlib import Path
 from typing import Iterable
+
+csv.field_size_limit(min(sys.maxsize, 2_147_483_647))
 
 
 def read_csv(path: str | Path) -> list[dict[str, str]]:

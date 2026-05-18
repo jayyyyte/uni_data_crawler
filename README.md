@@ -20,6 +20,16 @@ English proficiency and certificate requirements are separated:
 - `english_requirement_summary`: IELTS, TOEFL iBT, PTE, Duolingo, Cambridge English.
 - `cert_requirement_summary`: SAT, ACT, GRE, GMAT, LSAT, MCAT, LNAT, UCAT, BMAT, TMUA, STEP, AP, IB, A-Level, HSK, JLPT, TOPIK.
 
+## Optional API Keys
+
+The baseline crawler and rule-based extractor use only the Python standard library. The one-off LLM-assisted workflow uses these optional environment variables:
+
+```powershell
+$env:SERPER_API_KEY="..."
+$env:OPENAI_API_KEY="..."
+$env:OPENAI_MODEL="gpt-4o-mini"
+```
+
 ## Quick Start
 
 Validate the pilot input files:
@@ -43,6 +53,20 @@ python ingest.py build-source-map-candidates --sources exports/pilot/sources.csv
 python ingest.py extract-facts --sources exports/pilot/sources.csv --evidence exports/pilot/evidence.csv --out-dir exports/pilot
 python ingest.py build-profiles --seed data/seed_universities.csv --sources exports/pilot/sources.csv --facts exports/pilot/facts.csv --rankings data/rankings_import.csv --country-costs data/country_cost_of_living.csv --evidence exports/pilot/evidence.csv --out-dir exports/pilot --run-id pilot_validated_v04
 ```
+
+Run the one-off search + LLM-assisted workflow:
+
+```powershell
+python ingest.py search-sources --seed data/seed_universities.csv --existing-sources data/source_map.csv --out exports/scale_150/serper_source_candidates.csv --source-types undergraduate_admissions,tuition_fees,english_requirements,program_catalog,scholarships
+python ingest.py promote-search-sources --seed data/seed_universities.csv --base-sources data/source_map.csv --candidates exports/scale_150/serper_source_candidates.csv --out exports/scale_150/source_map_llm_ready.csv
+python ingest.py validate-sources --seed data/seed_universities.csv --sources exports/scale_150/source_map_llm_ready.csv
+python ingest.py crawl-sources --sources exports/scale_150/source_map_llm_ready.csv --out-dir exports/scale_150/llm_ready_crawl --timeout 12
+python ingest.py extract-facts --sources exports/scale_150/llm_ready_crawl/sources.csv --evidence exports/scale_150/llm_ready_crawl/evidence.csv --out-dir exports/scale_150/llm_ready_crawl
+python ingest.py extract-facts-llm --sources exports/scale_150/llm_ready_crawl/sources.csv --evidence exports/scale_150/llm_ready_crawl/evidence.csv --out-dir exports/scale_150/llm_ready_crawl --run-id scale150_llm_v01
+python ingest.py build-profiles --seed data/seed_universities.csv --sources exports/scale_150/llm_ready_crawl/sources.csv --facts exports/scale_150/llm_ready_crawl/facts.csv --rankings data/rankings_import.csv --country-costs data/country_cost_of_living.csv --evidence exports/scale_150/llm_ready_crawl/evidence.csv --out-dir exports/scale_150/llm_ready_crawl --run-id scale150_llm_v01
+```
+
+Review `serper_source_candidates.csv` before promotion. Only rows with `review_status=approved` are promoted.
 
 Retry failed required sources without recrawling the whole batch:
 
@@ -85,6 +109,8 @@ QA outputs:
 - `exports/pilot/sources.csv`
 - `exports/pilot/evidence.csv`
 - `exports/pilot/facts.csv`
+- `exports/pilot/facts_llm.csv`
+- `exports/pilot/llm_extraction_report.csv`
 - `exports/pilot/programs.csv`
 - `exports/pilot/qa_report.csv`
 - `exports/pilot/pilot_quality_gate.csv`

@@ -191,6 +191,7 @@ def unique_values(facts: list[dict[str, str]], fact_type: str, fact_key: str) ->
 
 
 def first_value(facts: list[dict[str, str]], fact_type: str, fact_key: str) -> str:
+    facts = prefer_llm_facts(facts, fact_type, fact_key)
     values = [
         fact.get("value_text", "")
         for fact in facts
@@ -200,6 +201,7 @@ def first_value(facts: list[dict[str, str]], fact_type: str, fact_key: str) -> s
 
 
 def usd_range(facts: list[dict[str, str]], fact_type: str, fact_key: str) -> tuple[int | str, int | str]:
+    facts = prefer_llm_facts(facts, fact_type, fact_key)
     lows: list[int] = []
     highs: list[int] = []
     for fact in facts:
@@ -241,6 +243,9 @@ def living_cost_is_suspicious(living_min: int | str, living_max: int | str) -> b
 
 
 def english_summary(facts: list[dict[str, str]]) -> str:
+    llm_values = [fact for fact in facts if fact.get("fact_type") == "english_requirement" and fact.get("fact_origin") == "llm_extracted_from_source"]
+    if llm_values:
+        facts = llm_values
     values: list[str] = []
     for fact in facts:
         if fact.get("fact_type") != "english_requirement":
@@ -271,6 +276,7 @@ def cert_summary(tags: list[str]) -> str:
 
 
 def deadline_summary_from_candidates(facts: list[dict[str, str]]) -> str:
+    facts = prefer_llm_facts(facts, "application", "application_deadline_candidate")
     values: list[str] = []
     for fact in facts:
         if fact.get("fact_type") != "application" or fact.get("fact_key") != "application_deadline_candidate":
@@ -609,6 +615,21 @@ def batch_qa_rows(
 
 def count_facts(facts: list[dict[str, str]], fact_type: str, fact_key: str | None) -> int:
     return sum(1 for fact in facts if fact.get("fact_type") == fact_type and (fact_key is None or fact.get("fact_key") == fact_key))
+
+
+def prefer_llm_facts(facts: list[dict[str, str]], fact_type: str, fact_key: str) -> list[dict[str, str]]:
+    matching = [
+        fact for fact in facts
+        if fact.get("fact_type") == fact_type and fact.get("fact_key") == fact_key
+    ]
+    llm_matching = [fact for fact in matching if fact.get("fact_origin") == "llm_extracted_from_source"]
+    if llm_matching:
+        other = [
+            fact for fact in facts
+            if not (fact.get("fact_type") == fact_type and fact.get("fact_key") == fact_key)
+        ]
+        return other + llm_matching
+    return facts
 
 
 def qa_status_for_profile(
