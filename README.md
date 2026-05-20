@@ -26,6 +26,11 @@ The baseline crawler and rule-based extractor use only the Python standard libra
 
 ```powershell
 $env:SERPER_API_KEY="..."
+$env:LLM_PROVIDER="gemini"
+$env:GEMINI_API_KEY="..."
+$env:GEMINI_MODEL="gemini-2.5-flash-lite"
+
+# Optional OpenAI fallback if you have API billing/quota.
 $env:OPENAI_API_KEY="..."
 $env:OPENAI_MODEL="gpt-4o-mini"
 ```
@@ -62,11 +67,25 @@ python ingest.py promote-search-sources --seed data/seed_universities.csv --base
 python ingest.py validate-sources --seed data/seed_universities.csv --sources exports/scale_150/source_map_llm_ready.csv
 python ingest.py crawl-sources --sources exports/scale_150/source_map_llm_ready.csv --out-dir exports/scale_150/llm_ready_crawl --timeout 12
 python ingest.py extract-facts --sources exports/scale_150/llm_ready_crawl/sources.csv --evidence exports/scale_150/llm_ready_crawl/evidence.csv --out-dir exports/scale_150/llm_ready_crawl
-python ingest.py extract-facts-llm --sources exports/scale_150/llm_ready_crawl/sources.csv --evidence exports/scale_150/llm_ready_crawl/evidence.csv --out-dir exports/scale_150/llm_ready_crawl --run-id scale150_llm_v01
-python ingest.py build-profiles --seed data/seed_universities.csv --sources exports/scale_150/llm_ready_crawl/sources.csv --facts exports/scale_150/llm_ready_crawl/facts.csv --rankings data/rankings_import.csv --country-costs data/country_cost_of_living.csv --evidence exports/scale_150/llm_ready_crawl/evidence.csv --out-dir exports/scale_150/llm_ready_crawl --run-id scale150_llm_v01
+python ingest.py extract-facts-llm --sources exports/scale_150/llm_ready_crawl/sources.csv --evidence exports/scale_150/llm_ready_crawl/evidence.csv --out-dir exports/scale_150/llm_ready_crawl --run-id scale150_gemini_v01 --provider gemini --sleep-seconds 2
+python ingest.py build-profiles --seed data/seed_universities.csv --sources exports/scale_150/llm_ready_crawl/sources.csv --facts exports/scale_150/llm_ready_crawl/facts.csv --rankings data/rankings_import.csv --country-costs data/country_cost_of_living.csv --evidence exports/scale_150/llm_ready_crawl/evidence.csv --out-dir exports/scale_150/llm_ready_crawl --run-id scale150_gemini_v01
 ```
 
 Review `serper_source_candidates.csv` before promotion. Only rows with `review_status=approved` are promoted.
+
+Complete QS rankings before rebuilding product profiles:
+
+```powershell
+python ingest.py fetch-qs-rankings --out-dir exports/scale_150/rankings
+python ingest.py match-rankings --seed data/seed_universities.csv --qs exports/scale_150/rankings/qs_normalized.csv --base data/rankings_import.csv --out data/rankings_import.csv --report exports/scale_150/rankings/ranking_match_report.csv
+```
+
+If QS official pages block automation with Cloudflare/WAF, download or export the QS ranking table manually from an official/reviewed source, save it as CSV, then run:
+
+```powershell
+python ingest.py normalize-qs-rankings --input exports/scale_150/rankings/manual_qs_2026_export.csv --out-dir exports/scale_150/rankings
+python ingest.py match-rankings --seed data/seed_universities.csv --qs exports/scale_150/rankings/qs_normalized.csv --base data/rankings_import.csv --out data/rankings_import.csv --report exports/scale_150/rankings/ranking_match_report.csv
+```
 
 Retry failed required sources without recrawling the whole batch:
 

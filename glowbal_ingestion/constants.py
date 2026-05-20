@@ -103,6 +103,75 @@ SEARCH_SOURCE_COLUMNS = [
     "notes",
 ]
 
+QS_RAW_COLUMNS = [
+    "ranking_provider",
+    "ranking_year",
+    "source_url",
+    "rank_raw",
+    "institution_name",
+    "country",
+    "city",
+    "raw_json",
+    "retrieved_at",
+]
+
+QS_NORMALIZED_COLUMNS = [
+    "ranking_provider",
+    "ranking_year",
+    "institution_name",
+    "normalized_name",
+    "country",
+    "city",
+    "rank_raw",
+    "rank_numeric",
+    "rank_display",
+    "ranking_source_url",
+    "retrieved_at",
+    "review_status",
+    "notes",
+]
+
+RANKING_IMPORT_COLUMNS = [
+    "university_id",
+    "qs_rank",
+    "the_rank",
+    "arwu_rank",
+    "rank_display",
+    "ranking_source_url",
+    "retrieved_at",
+    "review_status",
+    "notes",
+]
+
+RANKING_MATCH_CANDIDATE_COLUMNS = [
+    "university_id",
+    "seed_name",
+    "seed_country",
+    "candidate_name",
+    "candidate_country",
+    "rank_raw",
+    "rank_numeric",
+    "rank_display",
+    "confidence_score",
+    "match_reason",
+    "review_status",
+    "ranking_source_url",
+]
+
+RANKING_MATCH_REPORT_COLUMNS = [
+    "university_id",
+    "seed_name",
+    "seed_country",
+    "match_status",
+    "matched_name",
+    "matched_country",
+    "qs_rank",
+    "rank_display",
+    "confidence_score",
+    "ranking_source_url",
+    "notes",
+]
+
 LLM_EXTRACTION_REPORT_COLUMNS = [
     "evidence_id",
     "source_id",

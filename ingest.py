@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -13,12 +14,14 @@ from glowbal_ingestion.llm_extractors import extract_facts_with_llm
 from glowbal_ingestion.manifest import default_run_id, write_run_manifest
 from glowbal_ingestion.profiles import build_profiles
 from glowbal_ingestion.quality import classify_evidence_rows
+from glowbal_ingestion.rankings import fetch_qs_rankings, match_rankings, normalize_qs_rankings_file
 from glowbal_ingestion.source_search import promote_search_sources, search_source_candidates
 from glowbal_ingestion.source_map_tools import apply_source_repairs, build_retry_source_map, merge_crawl_outputs, normalize_source_map
 from glowbal_ingestion.validation import validate_seed_rows, validate_source_rows
 
 
 def main(argv: list[str] | None = None) -> int:
+    load_local_env()
     parser = argparse.ArgumentParser(description="Glowbal university ingestion pipeline")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -111,11 +114,32 @@ def main(argv: list[str] | None = None) -> int:
     promote_parser.add_argument("--candidates", required=True)
     promote_parser.add_argument("--out", required=True)
 
-    llm_parser = subparsers.add_parser("extract-facts-llm", help="Extract evidence-backed facts using OpenAI structured output")
+    llm_parser = subparsers.add_parser("extract-facts-llm", help="Extract evidence-backed facts using an LLM provider")
     llm_parser.add_argument("--sources", required=True)
     llm_parser.add_argument("--evidence", required=True)
     llm_parser.add_argument("--out-dir", required=True)
     llm_parser.add_argument("--run-id", default="")
+    llm_parser.add_argument("--provider", choices=["openai", "gemini"], default="")
+    llm_parser.add_argument("--model", default="")
+    llm_parser.add_argument("--limit", type=int, default=0)
+    llm_parser.add_argument("--offset", type=int, default=0)
+    llm_parser.add_argument("--sleep-seconds", type=float, default=0.0)
+    llm_parser.add_argument("--source-types", default="")
+
+    fetch_qs_parser = subparsers.add_parser("fetch-qs-rankings", help="Fetch and normalize QS World University Rankings")
+    fetch_qs_parser.add_argument("--out-dir", required=True)
+    fetch_qs_parser.add_argument("--no-playwright", action="store_true")
+
+    normalize_qs_parser = subparsers.add_parser("normalize-qs-rankings", help="Normalize a reviewed QS ranking CSV export")
+    normalize_qs_parser.add_argument("--input", required=True)
+    normalize_qs_parser.add_argument("--out-dir", required=True)
+
+    match_rankings_parser = subparsers.add_parser("match-rankings", help="Match normalized QS rankings into rankings_import.csv")
+    match_rankings_parser.add_argument("--seed", required=True)
+    match_rankings_parser.add_argument("--qs", required=True)
+    match_rankings_parser.add_argument("--base", required=True)
+    match_rankings_parser.add_argument("--out", required=True)
+    match_rankings_parser.add_argument("--report", required=True)
 
     args = parser.parse_args(argv)
 
@@ -249,8 +273,32 @@ def main(argv: list[str] | None = None) -> int:
             read_csv(args.evidence),
             args.out_dir,
             run_id=args.run_id,
+            provider=args.provider or None,
+            model=args.model or None,
+            limit=args.limit,
+            offset=args.offset,
+            sleep_seconds=args.sleep_seconds,
+            source_types=parse_csv_set(args.source_types),
         )
         print(f"Wrote {len(facts)} LLM facts and {len(report_rows)} report rows to {args.out_dir}")
+        return 0
+    if args.command == "fetch-qs-rankings":
+        raw_rows, normalized_rows = fetch_qs_rankings(args.out_dir, use_playwright=not args.no_playwright)
+        print(f"Wrote {len(raw_rows)} raw QS rows and {len(normalized_rows)} normalized QS rows to {args.out_dir}")
+        return 0
+    if args.command == "normalize-qs-rankings":
+        raw_rows, normalized_rows = normalize_qs_rankings_file(args.input, args.out_dir)
+        print(f"Wrote {len(raw_rows)} raw QS rows and {len(normalized_rows)} normalized QS rows to {args.out_dir}")
+        return 0
+    if args.command == "match-rankings":
+        output_rows, report_rows, candidate_rows = match_rankings(
+            read_csv(args.seed),
+            read_csv(args.qs),
+            read_csv(args.base),
+            args.out,
+            args.report,
+        )
+        print(f"Wrote {len(output_rows)} ranking import rows, {len(report_rows)} report rows, and {len(candidate_rows)} candidates")
         return 0
 
     parser.error(f"Unsupported command: {args.command}")
@@ -272,6 +320,11 @@ def command_validate(seed_path: str, sources_path: str) -> int:
 
 def read_optional_csv(path: str) -> list[dict[str, str]]:
     return read_csv(path) if path else []
+
+
+def parse_csv_set(value: str) -> set[str] | None:
+    items = {part.strip() for part in value.split(",") if part.strip()}
+    return items or None
 
 
 def write_profile_manifest(
@@ -395,6 +448,21 @@ def read_optional_json(path: str | Path) -> dict[str, object]:
         return json.loads(json_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
         return {}
+
+
+def load_local_env(path: str | Path = ".env") -> None:
+    env_path = Path(path)
+    if not env_path.exists():
+        return
+    for raw_line in env_path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if key and key not in os.environ:
+            os.environ[key] = value
 
 
 if __name__ == "__main__":

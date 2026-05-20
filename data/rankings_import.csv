@@ -1,51 +1,151 @@
-university_id,qs_rank,the_rank,arwu_rank,rank_display,ranking_source_url,retrieved_at,review_status,notes
-mit,1,,,QS 2026 #1,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-stanford,3,,,QS 2026 #3,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-harvard,5,,,QS 2026 #5,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-uc-berkeley,17,,,QS 2026 #=17,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-caltech,10,,,QS 2026 #10,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-princeton,25,,,QS 2026 #=25,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-yale,21,,,QS 2026 #21,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-columbia,38,,,QS 2026 #=38,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-uchicago,13,,,QS 2026 #13,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-upenn,15,,,QS 2026 #15,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-cornell,16,,,QS 2026 #16,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-cmu,52,,,QS 2026 #52,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-toronto,29,,,QS 2026 #29,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-ubc,40,,,QS 2026 #40,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-mcgill,27,,,QS 2026 #27,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-oxford,4,,,QS 2026 #4,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-cambridge,6,,,QS 2026 #6,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-imperial,2,,,QS 2026 #2,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-ucl,9,,,QS 2026 #9,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-lse,56,,,QS 2026 #56,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-edinburgh,34,,,QS 2026 #34,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-manchester,35,,,QS 2026 #35,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-kcl,31,,,QS 2026 #31,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-eth-zurich,7,,,QS 2026 #7,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-epfl,22,,,QS 2026 #=22,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-tum,22,,,QS 2026 #=22,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-lmu-munich,58,,,QS 2026 #=58,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-heidelberg,80,,,QS 2026 #80,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-sorbonne,72,,,QS 2026 #=72,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-sciences-po,367,,,QS 2026 #=367,https://www.topuniversities.com/universities/sciences-po,2026-05-14,approved,QS World University Rankings 2026
-amsterdam,53,,,QS 2026 #53,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-delft,47,,,QS 2026 #=47,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-ku-leuven,60,,,QS 2026 #60,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-bocconi,,,,QS 2026 not in published World University Rankings,https://www.topuniversities.com/universities/bocconi-university,2026-05-14,needs_review,QS page lists subject ranking/contributor status; no QS WUR rank 2026
-nus,8,,,QS 2026 #8,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-ntu-singapore,12,,,QS 2026 #12,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-hku,11,,,QS 2026 #11,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-cuhk,32,,,QS 2026 #=32,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-hkust,44,,,QS 2026 #44,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-tokyo,36,,,QS 2026 #=36,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-kyoto,57,,,QS 2026 #57,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-snu,38,,,QS 2026 #=38,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-kaist,,,,QS 2026 excluded,https://www.topuniversities.com/rankings-release-summaries/world-university-rankings-2026-release-summary,2026-05-14,needs_review,QS says KAIST does not appear in 2026 WUR following rankings guidelines breach
-tsinghua,17,,,QS 2026 #=17,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-peking,14,,,QS 2026 #14,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-melbourne,19,,,QS 2026 #19,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-sydney,25,,,QS 2026 #=25,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-anu,32,,,QS 2026 #=32,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-unsw,20,,,QS 2026 #20,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
-auckland,65,,,QS 2026 #65,https://www.topuniversities.com/qs-top-uni-wur,2026-05-14,approved,QS World University Rankings 2026
+﻿university_id,qs_rank,the_rank,arwu_rank,rank_display,ranking_source_url,retrieved_at,review_status,notes
+aarhus,131,,,QS 2026 #131,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+adelaide,82,,,QS 2026 #82,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+amsterdam,53,,,QS 2026 #53,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+anu,32,,,QS 2026 #32,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+auckland,65,,,QS 2026 #65,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+bath,132,,,QS 2026 #132,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+bc,526,,,QS 2026 #526,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+birmingham,76,,,QS 2026 #76,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+bocconi,,,,,,,needs_review,No ranking match yet
+bristol,51,,,QS 2026 #51,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+brown,69,,,QS 2026 #69,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+bu,88,,,QS 2026 #88,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+caltech,10,,,QS 2026 #10,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+cambridge,6,,,QS 2026 #6,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+cityu,63,,,QS 2026 #63,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+cmu,52,,,QS 2026 #52,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+columbia,38,,,QS 2026 #38,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+copenhagen,101,,,QS 2026 #101,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+cornell,16,,,QS 2026 #16,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+cuhk,32,,,QS 2026 #32,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+dartmouth,247,,,QS 2026 #247,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+delft,47,,,QS 2026 #47,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+duke,62,,,QS 2026 #62,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+durham,94,,,QS 2026 #94,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+edinburgh,34,,,QS 2026 #34,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+emory,182,,,QS 2026 #182,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+epfl,22,,,QS 2026 #22,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+eth-zurich,7,,,QS 2026 #7,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+fudan,30,,,QS 2026 #30,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+gatech,123,,,QS 2026 #123,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+geneva,155,,,QS 2026 #155,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+georgetown,285,,,QS 2026 #285,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ghent,162,,,QS 2026 #162,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+glasgow,79,,,QS 2026 #79,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+hanyang,159,,,QS 2026 #159,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+harvard,5,,,QS 2026 #5,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+heidelberg,80,,,QS 2026 #80,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+helsinki,116,,,QS 2026 #116,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+hku,11,,,QS 2026 #11,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+hkust,44,,,QS 2026 #44,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+hokkaido,170,,,QS 2026 #170,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+humboldt,130,,,QS 2026 #130,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+imperial,2,,,QS 2026 #2,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+jhu,24,,,QS 2026 #24,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+kaist,,,,,,,needs_review,No ranking match yet
+karolinska,,,,,,,needs_review,No ranking match yet
+kcl,31,,,QS 2026 #31,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+keio,215,,,QS 2026 #215,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+korea,61,,,QS 2026 #61,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+kth,78,,,QS 2026 #78,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ku-leuven,60,,,QS 2026 #60,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+kyoto,57,,,QS 2026 #57,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+kyushu,170,,,QS 2026 #170,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+leeds,86,,,QS 2026 #86,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+leiden,119,,,QS 2026 #119,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+lmu-munich,58,,,QS 2026 #58,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+lmumunich,58,,,QS 2026 #58,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+lse,56,,,QS 2026 #56,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+lund,72,,,QS 2026 #72,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+manchester,35,,,QS 2026 #35,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+mcgill,27,,,QS 2026 #27,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+mcmaster,173,,,QS 2026 #173,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+melbourne,19,,,QS 2026 #19,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+mit,1,,,QS 2026 #1,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+monash,36,,,QS 2026 #36,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+nagoya,164,,,QS 2026 #164,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+nanjing,103,,,QS 2026 #103,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+northwestern,42,,,QS 2026 #42,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+notredame,294,,,QS 2026 #294,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+nottingham,97,,,QS 2026 #97,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ntu-singapore,12,,,QS 2026 #12,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ntu_tw,63,,,QS 2026 #63,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+nus,8,,,QS 2026 #8,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+nyu,55,,,QS 2026 #55,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+osaka,91,,,QS 2026 #91,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+oslo,119,,,QS 2026 #119,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+osu,190,,,QS 2026 #190,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+oxford,4,,,QS 2026 #4,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+peking,14,,,QS 2026 #14,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+polytechnique,41,,,QS 2026 #41,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+polyu,54,,,QS 2026 #54,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+postech,102,,,QS 2026 #102,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+princeton,25,,,QS 2026 #25,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+psl,28,,,QS 2026 #28,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+psu,82,,,QS 2026 #82,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+purdue,88,,,QS 2026 #88,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+rice,119,,,QS 2026 #119,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+rutgers,328,,,QS 2026 #328,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+sciences-po,367,,,QS 2026 #367,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+sheffield,92,,,QS 2026 #92,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+sjtu,47,,,QS 2026 #47,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+skku,126,,,QS 2026 #126,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+snu,38,,,QS 2026 #38,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+sorbonne,72,,,QS 2026 #72,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+southampton,87,,,QS 2026 #87,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+standrews,113,,,QS 2026 #113,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+stanford,3,,,QS 2026 #3,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+sydney,25,,,QS 2026 #25,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+sysu,276,,,QS 2026 #276,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+tamu,144,,,QS 2026 #144,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+tcd,75,,,QS 2026 #75,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+tohoku,109,,,QS 2026 #109,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+tokyo,36,,,QS 2026 #36,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+toronto,29,,,QS 2026 #29,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+tsinghua,17,,,QS 2026 #17,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+tufts,334,,,QS 2026 #334,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+tum,22,,,QS 2026 #22,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ualberta,94,,,QS 2026 #94,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ubc,40,,,QS 2026 #40,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+uc-berkeley,17,,,QS 2026 #17,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ucalgary,211,,,QS 2026 #211,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ucd,118,,,QS 2026 #118,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ucdavis,114,,,QS 2026 #114,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+uchicago,13,,,QS 2026 #13,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+uci,293,,,QS 2026 #293,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ucl,9,,,QS 2026 #9,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ucsb,179,,,QS 2026 #179,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ucsc,458,,,QS 2026 #458,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ucsd,66,,,QS 2026 #66,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+uf,212,,,QS 2026 #212,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+uiuc,70,,,QS 2026 #70,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+umd,207,,,QS 2026 #207,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+umich,45,,,QS 2026 #45,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+umontreal,168,,,QS 2026 #168,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+unc,140,,,QS 2026 #140,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+unsw,20,,,QS 2026 #20,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+upenn,15,,,QS 2026 #15,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+uppsala,93,,,QS 2026 #93,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+uq,42,,,QS 2026 #42,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+usc,146,,,QS 2026 #146,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+ustc,132,,,QS 2026 #132,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+utaustin,68,,,QS 2026 #68,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+utrecht,103,,,QS 2026 #103,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+uva,275,,,QS 2026 #275,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+uwa,77,,,QS 2026 #77,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+uwashington,81,,,QS 2026 #81,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+uwmadison,110,,,QS 2026 #110,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+uzh,100,,,QS 2026 #100,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+vanderbilt,250,,,QS 2026 #250,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+wageningen,153,,,QS 2026 #153,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+warwick,74,,,QS 2026 #74,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+waseda,196,,,QS 2026 #196,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+waterloo,119,,,QS 2026 #119,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+western,151,,,QS 2026 #151,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+wuhan,186,,,QS 2026 #186,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+wustl,167,,,QS 2026 #167,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+yale,21,,,QS 2026 #21,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+yonsei,50,,,QS 2026 #50,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+york,169,,,QS 2026 #169,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
+zhejiang,49,,,QS 2026 #49,exports/scale_150/rankings/manual_qs_2026_export.csv,2026-05-19,approved,QS 2026 official match
